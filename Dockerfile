@@ -93,3 +93,6 @@ RUN chmod +x /wait
 
 # Supervisord run command
 CMD /wait && /usr/bin/supervisord
+
+# Ports
+EXPOSE 8000
