@@ -1,7 +1,7 @@
 <?php declare(strict_types = 1);
 
 /**
- * RequestMethodType.php
+ * RequestSchemeType.php
  *
  * @license        More in license.md
  * @copyright      https://www.fastybird.com
@@ -16,28 +16,23 @@
 namespace FastyBird\GatewayNode\Types;
 
 use Consistence;
-use Fig\Http\Message\RequestMethodInterface;
 
 /**
- * Request method types
+ * Request scheme types
  *
  * @package        FastyBird:GatewayNode!
  * @subpackage     Types
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
  */
-class RequestMethodType extends Consistence\Enum\Enum
+class RequestSchemeType extends Consistence\Enum\Enum
 {
 
 	/**
-	 * Define methods types
+	 * Define scheme types
 	 */
-	public const METHOD_GET = RequestMethodInterface::METHOD_GET;
-	public const METHOD_POST = RequestMethodInterface::METHOD_POST;
-	public const METHOD_PATCH = RequestMethodInterface::METHOD_PATCH;
-	public const METHOD_PUT = RequestMethodInterface::METHOD_PUT;
-	public const METHOD_DELETE = RequestMethodInterface::METHOD_DELETE;
-	public const METHOD_OPTIONS = RequestMethodInterface::METHOD_OPTIONS;
+	public const METHOD_HTTP = 'http';
+	public const METHOD_HTTPS = 'https';
 
 	/**
 	 * @return string

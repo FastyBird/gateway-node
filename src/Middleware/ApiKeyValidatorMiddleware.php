@@ -40,12 +40,12 @@ final class ApiKeyValidatorMiddleware implements MiddlewareInterface
 	/** @var Models\Keys\IKeyRepository */
 	private $keyRepository;
 
-	/** @var Translation\PrefixedTranslator */
+	/** @var Translation\Translator */
 	private $translator;
 
 	public function __construct(
 		Models\Keys\IKeyRepository $keyRepository,
-		Translation\PrefixedTranslator $translator
+		Translation\Translator $translator
 	) {
 		$this->keyRepository = $keyRepository;
 		$this->translator = $translator;
@@ -58,6 +58,7 @@ final class ApiKeyValidatorMiddleware implements MiddlewareInterface
 	 * @return ResponseInterface
 	 *
 	 * @throws NodeWebServerExceptions\IJsonApiException
+	 * @throws Translation\Exceptions\InvalidArgument
 	 */
 	public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
 	{
@@ -100,14 +101,7 @@ final class ApiKeyValidatorMiddleware implements MiddlewareInterface
 		$headers = [];
 
 		foreach ($request->getHeaders() as $k => $v) {
-			if (strncmp($k, 'HTTP_', 5) === 0) {
-				$k = substr($k, 5);
-
-			} elseif (strncmp($k, 'CONTENT_', 8)) {
-				continue;
-			}
-
-			$headers[strtr($k, '_', '-')] = $v;
+			$headers[strtr($k, '_', '-')] = reset($v);
 		}
 
 		return array_change_key_case((array) $headers, CASE_LOWER);

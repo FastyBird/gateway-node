@@ -79,4 +79,16 @@ interface IRoute extends Entities\IEntity,
 	 */
 	public function getDestination(): string;
 
+	/**
+	 * @param Entities\Routes\Nodes\INode $node
+	 *
+	 * @return void
+	 */
+	public function setNode(Entities\Routes\Nodes\INode $node): void;
+
+	/**
+	 * @return Entities\Routes\Nodes\INode
+	 */
+	public function getNode(): Entities\Routes\Nodes\INode;
+
 }

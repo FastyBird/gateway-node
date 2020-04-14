@@ -41,4 +41,16 @@ interface IRouteRepository
 		Queries\FindRouteQuery $queryObject
 	): ?Entities\Routes\IRoute;
 
+	/**
+	 * @param Queries\FindRouteQuery $queryObject
+	 *
+	 * @return Entities\Routes\IRoute[]
+	 *
+	 * @phpstan-template T of Entities\Routes\Route
+	 * @phpstan-param    Queries\FindRouteQuery<T> $queryObject
+	 */
+	public function findAllBy(
+		Queries\FindRouteQuery $queryObject
+	): array;
+
 }

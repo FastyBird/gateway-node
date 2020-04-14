@@ -55,12 +55,12 @@ final class CorsMiddleware implements MiddlewareInterface
 		'headers.expose'  => [],
 		'credentials'     => false,
 		'origin.protocol' => 'http',
-		'origin.server'   => null,
+		'origin.server'   => 'localhost',
 		'origin.port'     => 80,
 		'cache'           => 0,
 	];
 
-	/** @var Translation\PrefixedTranslator */
+	/** @var Translation\Translator */
 	private $translator;
 
 	/** @var NodeWebServerHttp\ResponseFactory */
@@ -71,13 +71,13 @@ final class CorsMiddleware implements MiddlewareInterface
 
 	/**
 	 * @param mixed[] $options
-	 * @param Translation\PrefixedTranslator $translator
+	 * @param Translation\Translator $translator
 	 * @param NodeWebServerHttp\ResponseFactory $responseFactory
 	 * @param LoggerInterface $logger
 	 */
 	public function __construct(
 		array $options,
-		Translation\PrefixedTranslator $translator,
+		Translation\Translator $translator,
 		NodeWebServerHttp\ResponseFactory $responseFactory,
 		LoggerInterface $logger
 	) {
@@ -108,6 +108,7 @@ final class CorsMiddleware implements MiddlewareInterface
 	 * @return ResponseInterface
 	 *
 	 * @throws NodeWebServerExceptions\IJsonApiException
+	 * @throws Translation\Exceptions\InvalidArgument
 	 */
 	public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
 	{
@@ -196,23 +197,10 @@ final class CorsMiddleware implements MiddlewareInterface
 		}
 
 		$settings->setPreFlightCacheMaxAge((int) $this->options['cache']);
-
-		$origin = array_fill_keys((array) $this->options['origin'], true);
-
-		$settings->setAllowedOrigins($origin);
-
-		$methods = array_fill_keys((array) $this->options['methods'], true);
-
-		$settings->setAllowedMethods($methods);
-
-		$headers = array_fill_keys($this->options['headers.allow'], true);
-		$headers = array_change_key_case($headers, CASE_LOWER);
-
-		$settings->setAllowedHeaders($headers);
-
-		$headers = array_fill_keys($this->options['headers.expose'], true);
-
-		$settings->setExposedHeaders($headers);
+		$settings->setAllowedOrigins((array) $this->options['origin']);
+		$settings->setAllowedMethods((array) $this->options['methods']);
+		$settings->setAllowedHeaders((array) $this->options['headers.allow']);
+		$settings->setExposedHeaders((array) $this->options['headers.expose']);
 
 		if ($this->options['credentials']) {
 			$settings->setCredentialsSupported();
@@ -220,6 +208,8 @@ final class CorsMiddleware implements MiddlewareInterface
 		} else {
 			$settings->setCredentialsNotSupported();
 		}
+
+		$settings->enableCheckHost();
 
 		return $settings;
 	}

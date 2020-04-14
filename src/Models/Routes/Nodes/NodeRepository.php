@@ -13,24 +13,23 @@
  * @date           14.04.20
  */
 
-namespace FastyBird\GatewayNode\Models\Routes;
+namespace FastyBird\GatewayNode\Models\Routes\Nodes;
 
 use Doctrine\Common;
 use Doctrine\ORM;
 use FastyBird\GatewayNode\Entities;
 use FastyBird\GatewayNode\Queries;
 use Nette;
-use Throwable;
 
 /**
- * Route repository
+ * Route node repository
  *
  * @package        FastyBird:GatewayNode!
  * @subpackage     Models
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
  */
-final class RouteRepository implements IRouteRepository
+final class NodeRepository implements INodeRepository
 {
 
 	use Nette\SmartObject;
@@ -38,7 +37,7 @@ final class RouteRepository implements IRouteRepository
 	/** @var Common\Persistence\ManagerRegistry */
 	private $managerRegistry;
 
-	/** @var ORM\EntityRepository<Entities\Routes\Route>|null */
+	/** @var ORM\EntityRepository<Entities\Routes\Nodes\Node>|null */
 	private $repository = null;
 
 	public function __construct(Common\Persistence\ManagerRegistry $managerRegistry)
@@ -50,34 +49,21 @@ final class RouteRepository implements IRouteRepository
 	 * {@inheritDoc}
 	 */
 	public function findOneBy(
-		Queries\FindRouteQuery $queryObject
-	): ?Entities\Routes\IRoute {
-		/** @var Entities\Routes\IRoute|null $property */
+		Queries\FindRouteNodeQuery $queryObject
+	): ?Entities\Routes\Nodes\INode {
+		/** @var Entities\Routes\Nodes\INode|null $property */
 		$property = $queryObject->fetchOne($this->getRepository());
 
 		return $property;
 	}
 
 	/**
-	 * {@inheritDoc}
-	 *
-	 * @throws Throwable
-	 */
-	public function findAllBy(
-		Queries\FindRouteQuery $queryObject
-	): array {
-		$result = $queryObject->fetch($this->getRepository());
-
-		return is_array($result) ? $result : $result->toArray();
-	}
-
-	/**
-	 * @return ORM\EntityRepository<Entities\Routes\Route>
+	 * @return ORM\EntityRepository<Entities\Routes\Nodes\Node>
 	 */
 	private function getRepository(): ORM\EntityRepository
 	{
 		if ($this->repository === null) {
-			$this->repository = $this->managerRegistry->getRepository(Entities\Routes\Route::class);
+			$this->repository = $this->managerRegistry->getRepository(Entities\Routes\Nodes\Node::class);
 		}
 
 		return $this->repository;

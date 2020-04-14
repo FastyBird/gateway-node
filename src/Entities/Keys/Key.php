@@ -15,6 +15,7 @@
 
 namespace FastyBird\GatewayNode\Entities\Keys;
 
+use Consistence\Doctrine\Enum\EnumAnnotation as Enum;
 use Doctrine\ORM\Mapping as ORM;
 use FastyBird\GatewayNode\Entities;
 use FastyBird\GatewayNode\Types;

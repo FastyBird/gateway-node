@@ -15,6 +15,7 @@
 
 namespace FastyBird\GatewayNode\Entities\Routes;
 
+use Consistence\Doctrine\Enum\EnumAnnotation as Enum;
 use Doctrine\ORM\Mapping as ORM;
 use FastyBird\GatewayNode\Entities;
 use FastyBird\GatewayNode\Types;
@@ -89,6 +90,15 @@ class Route extends Entities\Entity implements IRoute
 	 * @ORM\Column(type="string", name="route_destination", length=200, nullable=false)
 	 */
 	private $destination;
+
+	/**
+	 * @var Entities\Routes\Nodes\INode
+	 *
+	 * @IPubDoctrine\Crud(is={"required", "writable"})
+	 * @ORM\ManyToOne(targetEntity="FastyBird\GatewayNode\Entities\Routes\Nodes\Node", inversedBy="routes", cascade={"persist"})
+	 * @ORM\JoinColumn(name="node_id", referencedColumnName="node_id", onDelete="CASCADE")
+	 */
+	private $node;
 
 	/**
 	 * @param string $name
@@ -173,6 +183,22 @@ class Route extends Entities\Entity implements IRoute
 	public function getDestination(): string
 	{
 		return $this->destination;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function setNode(Entities\Routes\Nodes\INode $node): void
+	{
+		$this->node = $node;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getNode(): Entities\Routes\Nodes\INode
+	{
+		return $this->node;
 	}
 
 }

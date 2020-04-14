@@ -16,7 +16,9 @@
 namespace FastyBird\GatewayNode\Commands\Routes;
 
 use Contributte\Translation;
+use FastyBird\GatewayNode\Entities;
 use FastyBird\GatewayNode\Models;
+use FastyBird\GatewayNode\Queries;
 use FastyBird\GatewayNode\Types;
 use Nette;
 use Nette\Utils;
@@ -25,6 +27,7 @@ use Symfony\Component\Console\Input;
 use Symfony\Component\Console\Output;
 use Symfony\Component\Console\Style;
 use Throwable;
+use Tracy\Debugger;
 
 /**
  * Routes creation command
@@ -42,6 +45,9 @@ class CreateCommand extends Console\Command\Command
 	/** @var Models\Routes\IRoutesManager */
 	private $routesManager;
 
+	/** @var Models\Routes\Nodes\INodeRepository */
+	private $nodeRepository;
+
 	/** @var Translation\PrefixedTranslator */
 	private $translator;
 
@@ -50,16 +56,19 @@ class CreateCommand extends Console\Command\Command
 
 	/**
 	 * @param Models\Routes\IRoutesManager $routesManager
+	 * @param Models\Routes\Nodes\INodeRepository $nodeRepository
 	 * @param Translation\Translator $translator
 	 * @param string|null $name
 	 */
 	public function __construct(
 		Models\Routes\IRoutesManager $routesManager,
+		Models\Routes\Nodes\INodeRepository $nodeRepository,
 		Translation\Translator $translator,
 		?string $name = null
 	) {
 		// Modules models
 		$this->routesManager = $routesManager;
+		$this->nodeRepository = $nodeRepository;
 
 		$this->translator = new Translation\PrefixedTranslator($translator, $this->translationDomain);
 
@@ -114,14 +123,36 @@ class CreateCommand extends Console\Command\Command
 			$createRoute = new Utils\ArrayHash();
 			$createRoute->offsetSet('name', $name);
 			$createRoute->offsetSet('path', $path);
+			$createRoute->offsetSet('method', Types\RequestMethodType::get($method));
 			$createRoute->offsetSet('destination', $destination);
-			$createRoute->offsetSet('method', Types\KeyStateType::get($method));
+
+			// TODO: Fix wired values
+			$findQuery = new Queries\FindRouteNodeQuery();
+			$findQuery->byScheme('http');
+			$findQuery->byHost('localhost');
+			$findQuery->byPort(8001);
+
+			$node = $this->nodeRepository->findOneBy($findQuery);
+
+			if ($node === null) {
+				$createNode = new Utils\ArrayHash();
+				$createNode->entity = Entities\Routes\Nodes\Node::class;
+				$createNode->scheme = Types\RequestSchemeType::get(Types\RequestSchemeType::METHOD_HTTP);
+				$createNode->host = 'localhost';
+				$createNode->port = 8001;
+
+				$createRoute->offsetSet('node', $createNode);
+
+			} else {
+				$createRoute->offsetSet('node', $node);
+			}
 
 			$route = $this->routesManager->create($createRoute);
 
 			$io->text(sprintf('<info>%s</info>', $this->translator->translate('success', ['name' => $route->getName()])));
 
 		} catch (Throwable $ex) {
+			Debugger::log($ex);
 			$io->text(sprintf('<error>%s</error>', $this->translator->translate('validation.route.wasNotCreated', ['error' => $ex->getMessage()])));
 		}
 
