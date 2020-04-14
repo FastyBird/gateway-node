@@ -33,6 +33,7 @@ use Throwable;
  *       "comment"="Routes mapping"
  *     },
  *     uniqueConstraints={
+ *       @ORM\UniqueConstraint(name="route_name_unique", columns={"route_name"}),
  *       @ORM\UniqueConstraint(name="route_path_unique", columns={"route_path"})
  *     },
  *     indexes={
@@ -60,6 +61,14 @@ class Route extends Entities\Entity implements IRoute
 	 * @var string
 	 *
 	 * @IPubDoctrine\Crud(is={"required", "writable"})
+	 * @ORM\Column(type="string", name="route_name", length=50, nullable=false)
+	 */
+	private $name;
+
+	/**
+	 * @var string
+	 *
+	 * @IPubDoctrine\Crud(is={"required", "writable"})
 	 * @ORM\Column(type="string", name="route_path", length=200, nullable=false)
 	 */
 	private $path;
@@ -82,6 +91,7 @@ class Route extends Entities\Entity implements IRoute
 	private $destination;
 
 	/**
+	 * @param string $name
 	 * @param string $path
 	 * @param string $destination
 	 * @param Uuid\UuidInterface|null $id
@@ -89,14 +99,32 @@ class Route extends Entities\Entity implements IRoute
 	 * @throws Throwable
 	 */
 	public function __construct(
+		string $name,
 		string $path,
 		string $destination,
 		?Uuid\UuidInterface $id = null
 	) {
 		$this->id = $id ?? Uuid\Uuid::uuid4();
 
+		$this->name = $name;
 		$this->path = $path;
 		$this->destination = $destination;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function setName(string $name): void
+	{
+		$this->name = $name;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getName(): string
+	{
+		return $this->name;
 	}
 
 	/**

@@ -25,7 +25,6 @@ parameters:
 #########################
 
 extensions:
-	contributteEventDispatcher	: Contributte\EventDispatcher\DI\EventDispatcherExtension
 	contributteTranslation		: Contributte\Translation\DI\TranslationExtension
 	ipubDoctrineConsistence		: IPub\DoctrineConsistence\DI\DoctrineConsistenceExtension
 	ipubDoctrineCrud			: IPub\DoctrineCrud\DI\DoctrineCrudExtension
@@ -120,9 +119,37 @@ decorator:
 services:
 	# Http middlewares
 	##################
-	- {factory: FastyBird\GatewayNode\Middleware\JsonApiMiddleware, tags: [middleware: {priority: 10}]}
+
+	- {factory: FastyBird\GatewayNode\Middleware\CorsMiddleware, tags: [middleware: {priority: 60}]}
+
+	- {factory: FastyBird\GatewayNode\Middleware\DbErrorMiddleware, tags: [middleware: {priority: 50}]}
+
+	- {factory: FastyBird\GatewayNode\Middleware\LoggerMiddleware, tags: [middleware: {priority: 40}]}
+
+	- {factory: FastyBird\GatewayNode\Middleware\ApiKeyValidatorMiddleware, tags: [middleware: {priority: 30}]}
 
 	# Node events
 	#############
+
 	- {factory: FastyBird\GatewayNode\Events\RequestHandler}
 
+	# Console commands
+	##################
+
+	- {factory: FastyBird\GatewayNode\Commands\Keys\CreateCommand}
+
+	- {factory: FastyBird\GatewayNode\Commands\Routes\CreateCommand}
+
+	# Database repositories
+	#######################
+
+	- {factory: FastyBird\GatewayNode\Models\Keys\KeyRepository}
+
+	- {factory: FastyBird\GatewayNode\Models\Routes\RouteRepository}
+
+	# Database managers
+	###################
+
+	- {factory: FastyBird\GatewayNode\Models\Keys\KeysManager(@ipubDoctrineCrud.crud::create(FastyBird\DevicesNode\Entities\Keys\Key))}
+
+	- {factory: FastyBird\GatewayNode\Models\Routes\RoutesManager(@ipubDoctrineCrud.crud::create(FastyBird\DevicesNode\Entities\Routes\Route))}

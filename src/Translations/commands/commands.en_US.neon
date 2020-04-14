@@ -23,3 +23,20 @@ keyCreate:
 			wasNotCreated	: "Key could not be created. Please try again later."
 
 	success	: "API key with name '%name%' and value '%key%' was successfully created"
+
+routeCreate:
+	inputs:
+		name:
+			title	: "Route name"
+		path:
+			title	: "Route path"
+		method:
+			title	: "Call method"
+		destination:
+			title	: "Pestination path"
+
+	validation:
+		key:
+			wasNotCreated	: "Route mapping could not be created. Please try again later."
+
+	success	: "Route mapping with name '%name%' was successfully created"

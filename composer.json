@@ -38,6 +38,7 @@
         "cweagans/composer-patches": "^1.6",
         "fastybird/node-libs": "^0.4",
         "fastybird/node-web-server": "^0.2",
+        "guzzlehttp/guzzle": "^6.5",
         "ipub/doctrine-consistence": "^0.3",
         "ipub/doctrine-crud": "^2.3",
         "ipub/doctrine-orm-query": "^0.0.5",
