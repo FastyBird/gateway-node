@@ -48,7 +48,7 @@ class ServerStartHandler
 	/** @var Models\Routes\IRouteRepository */
 	private $routeRepository;
 
-	/** @var SlimRouterRouting\Router */
+	/** @var SlimRouterRouting\IRouter */
 	private $router;
 
 	/** @var Translation\Translator */
@@ -59,7 +59,7 @@ class ServerStartHandler
 
 	public function __construct(
 		Models\Routes\IRouteRepository $routeRepository,
-		SlimRouterRouting\Router $router,
+		SlimRouterRouting\IRouter $router,
 		Translation\Translator $translator,
 		Common\Persistence\ManagerRegistry $managerRegistry
 	) {
