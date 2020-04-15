@@ -114,7 +114,10 @@ nettrineOrmAnnotations:
 decorator:
 	FastyBird\NodeWebServer\Commands\HttpServerCommand:
 		setup:
+			- '$onServerStart[]' = @FastyBird\GatewayNode\Events\ServerStartHandler
 			- '$onRequest[]' = @FastyBird\GatewayNode\Events\RequestHandler
+			- '$onResponse[]' = @FastyBird\GatewayNode\Events\ResponseHandler
+			- '$onAfterConsumeMessage[]' = @FastyBird\GatewayNode\Events\AfterConsumeHandler
 
 services:
 	# Http middlewares
@@ -144,7 +147,13 @@ services:
 	# Node events
 	#############
 
+	- {factory: FastyBird\GatewayNode\Events\ServerStartHandler}
+
 	- {factory: FastyBird\GatewayNode\Events\RequestHandler}
+
+	- {factory: FastyBird\GatewayNode\Events\ResponseHandler}
+
+	- {factory: FastyBird\GatewayNode\Events\AfterConsumeHandler}
 
 	# Console commands
 	##################
