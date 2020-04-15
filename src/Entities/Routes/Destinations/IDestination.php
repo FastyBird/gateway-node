@@ -13,35 +13,23 @@
  * @date           14.04.20
  */
 
-namespace FastyBird\GatewayNode\Entities\Routes;
+namespace FastyBird\GatewayNode\Entities\Routes\Destinations;
 
 use FastyBird\GatewayNode\Entities;
 use FastyBird\GatewayNode\Types;
 use IPub\DoctrineTimestampable;
 
 /**
- * Route entity interface
+ * Route destination entity interface
  *
  * @package        FastyBird:GatewayNode!
  * @subpackage     Entities
  *
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
  */
-interface IRoute extends Entities\IEntity,
+interface IDestination extends Entities\IEntity,
 	DoctrineTimestampable\Entities\IEntityCreated, DoctrineTimestampable\Entities\IEntityUpdated
 {
-
-	/**
-	 * @param string $name
-	 *
-	 * @return void
-	 */
-	public function setName(string $name): void;
-
-	/**
-	 * @return string
-	 */
-	public function getName(): string;
 
 	/**
 	 * @param Types\RequestMethodType $method
@@ -68,29 +56,27 @@ interface IRoute extends Entities\IEntity,
 	public function getPath(): string;
 
 	/**
-	 * @param Entities\Routes\Destinations\IDestination[] $destinations
+	 * @param Entities\Routes\Nodes\INode $node
 	 *
 	 * @return void
 	 */
-	public function setDestinations(array $destinations = []): void;
+	public function setNode(Entities\Routes\Nodes\INode $node): void;
 
 	/**
-	 * @param Destinations\IDestination $destination
+	 * @return Entities\Routes\Nodes\INode
+	 */
+	public function getNode(): Entities\Routes\Nodes\INode;
+
+	/**
+	 * @param Entities\Routes\IRoute $route
 	 *
 	 * @return void
 	 */
-	public function addDestination(Entities\Routes\Destinations\IDestination $destination): void;
+	public function setRoute(Entities\Routes\IRoute $route): void;
 
 	/**
-	 * @return Entities\Routes\Destinations\IDestination[]
+	 * @return Entities\Routes\IRoute
 	 */
-	public function getDestinations(): array;
-
-	/**
-	 * @param Destinations\IDestination $destination
-	 *
-	 * @return void
-	 */
-	public function removeDestination(Entities\Routes\Destinations\IDestination $destination): void;
+	public function getRoute(): Entities\Routes\IRoute;
 
 }

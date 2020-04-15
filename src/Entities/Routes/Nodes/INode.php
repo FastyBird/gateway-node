@@ -68,27 +68,29 @@ interface INode extends Entities\IEntity,
 	public function getPort(): int;
 
 	/**
-	 * @param Entities\Routes\IRoute[] $routes
-	 */
-	public function setRoutes(array $routes = []): void;
-
-	/**
-	 * @param Entities\Routes\IRoute $route
+	 * @param Entities\Routes\Destinations\IDestination[] $destinations
 	 *
 	 * @return void
 	 */
-	public function addRoute(Entities\Routes\IRoute $route): void;
+	public function setDestinations(array $destinations = []): void;
 
 	/**
-	 * @return Entities\Routes\IRoute[]
-	 */
-	public function getRoutes(): array;
-
-	/**
-	 * @param Entities\Routes\IRoute $route
+	 * @param Entities\Routes\Destinations\IDestination $route
 	 *
 	 * @return void
 	 */
-	public function removeRoute(Entities\Routes\IRoute $route): void;
+	public function addDestination(Entities\Routes\Destinations\IDestination $route): void;
+
+	/**
+	 * @return Entities\Routes\Destinations\IDestination[]
+	 */
+	public function getDestinations(): array;
+
+	/**
+	 * @param Entities\Routes\Destinations\IDestination $route
+	 *
+	 * @return void
+	 */
+	public function removeDestination(Entities\Routes\Destinations\IDestination $route): void;
 
 }

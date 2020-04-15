@@ -1,7 +1,7 @@
 <?php declare(strict_types = 1);
 
 /**
- * RequestHandler.php
+ * ServerStartHandler.php
  *
  * @license        More in license.md
  * @copyright      https://www.fastybird.com
@@ -24,7 +24,6 @@ use FastyBird\GatewayNode\Models;
 use FastyBird\GatewayNode\Queries;
 use FastyBird\NodeLibs\Exceptions as NodeLibsExceptions;
 use FastyBird\NodeWebServer\Exceptions as NodeWebServerExceptions;
-use FastyBird\NodeWebServer\Http as NodeWebServerHttp;
 use Fig\Http\Message\StatusCodeInterface;
 use GuzzleHttp;
 use IPub\SlimRouter\Routing as SlimRouterRouting;
@@ -95,25 +94,32 @@ class ServerStartHandler
 		foreach ($routes as $route) {
 			// Register route
 			$this->router->map([$route->getMethod()->getValue()], $route->getPath(), function (
-				ServerRequestInterface $request,
-				NodeWebServerHttp\Response $response
+				ServerRequestInterface $request
 			) use ($route): ResponseInterface {
 				$client = new GuzzleHttp\Client();
 
-				try {
-					return $client->request(
-						$route->getMethod()->getValue(),
-						$this->buildDestination($request, $route),
-						[
-							'query' => $request->getQueryParams(),
-							'body'  => $request->getBody()->getContents(),
-						]
-					);
+				$lastError = null;
 
-				} catch (GuzzleHttp\Exception\BadResponseException $ex) {
-					if ($ex->getResponse() !== null) {
-						return $ex->getResponse();
+				foreach ($route->getDestinations() as $destination) {
+					try {
+						return $client->request(
+							$destination->getMethod()->getValue(),
+							$this->buildDestination($request, $destination),
+							[
+								GuzzleHttp\RequestOptions::QUERY => $request->getQueryParams(),
+								GuzzleHttp\RequestOptions::BODY  => $request->getBody()->getContents(),
+							]
+						);
+
+					} catch (GuzzleHttp\Exception\BadResponseException $ex) {
+						if ($ex->getResponse() !== null) {
+							$lastError = $ex->getResponse();
+						}
 					}
+				}
+
+				if ($lastError !== null) {
+					return $lastError;
 				}
 
 				throw new NodeWebServerExceptions\JsonApiErrorException(
@@ -126,28 +132,28 @@ class ServerStartHandler
 	}
 
 	/**
-	 * @param Entities\Routes\IRoute $route
 	 * @param ServerRequestInterface $request
+	 * @param Entities\Routes\Destinations\IDestination $destination
 	 *
 	 * @return string
 	 */
 	private function buildDestination(
 		ServerRequestInterface $request,
-		Entities\Routes\IRoute $route
+		Entities\Routes\Destinations\IDestination $destination
 	): string {
-		$destination = ltrim($route->getDestination(), '/');
+		$path = ltrim($destination->getPath(), '/');
 
 		foreach ($request->getAttributes() as $key => $value) {
 			if (!Utils\Strings::startsWith($key, '__')) {
-				$destination = str_replace('{' . $key . '}', $value, $destination);
+				$path = str_replace('{' . $key . '}', $value, $path);
 			}
 		}
 
 		$uri = new GuzzleHttp\Psr7\Uri();
-		$uri = $uri->withScheme($route->getNode()->getScheme()->getValue());
-		$uri = $uri->withHost($route->getNode()->getHost());
-		$uri = $uri->withPort($route->getNode()->getPort());
-		$uri = $uri->withPath($destination);
+		$uri = $uri->withScheme($destination->getNode()->getScheme()->getValue());
+		$uri = $uri->withHost($destination->getNode()->getHost());
+		$uri = $uri->withPort($destination->getNode()->getPort());
+		$uri = $uri->withPath($path);
 
 		return (string) $uri;
 	}

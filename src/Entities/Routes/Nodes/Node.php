@@ -80,12 +80,12 @@ class Node extends Entities\Entity implements INode
 	private $port = 8000;
 
 	/**
-	 * @var Common\Collections\Collection<int, Entities\Routes\IRoute>
+	 * @var Common\Collections\Collection<int, Entities\Routes\Destinations\IDestination>
 	 *
 	 * @IPubDoctrine\Crud(is="writable")
-	 * @ORM\OneToMany(targetEntity="FastyBird\GatewayNode\Entities\Routes\Route", mappedBy="node", cascade={"persist", "remove"}, orphanRemoval=true)
+	 * @ORM\OneToMany(targetEntity="FastyBird\GatewayNode\Entities\Routes\Destinations\Destination", mappedBy="node", cascade={"persist", "remove"}, orphanRemoval=true)
 	 */
-	private $routes;
+	private $destinations;
 
 	/**
 	 * @param Types\RequestSchemeType $scheme
@@ -107,7 +107,7 @@ class Node extends Entities\Entity implements INode
 		$this->host = $host;
 		$this->port = $port;
 
-		$this->routes = new Common\Collections\ArrayCollection();
+		$this->destinations = new Common\Collections\ArrayCollection();
 	}
 
 	/**
@@ -161,16 +161,16 @@ class Node extends Entities\Entity implements INode
 	/**
 	 * {@inheritDoc}
 	 */
-	public function setRoutes(array $routes = []): void
+	public function setDestinations(array $destinations = []): void
 	{
-		$this->routes = new Common\Collections\ArrayCollection();
+		$this->destinations = new Common\Collections\ArrayCollection();
 
 		// Process all passed entities...
-		/** @var Entities\Routes\IRoute $entity */
-		foreach ($routes as $entity) {
-			if (!$this->routes->contains($entity)) {
+		/** @var Entities\Routes\Destinations\IDestination $entity */
+		foreach ($destinations as $entity) {
+			if (!$this->destinations->contains($entity)) {
 				// ...and assign them to collection
-				$this->routes->add($entity);
+				$this->destinations->add($entity);
 			}
 		}
 	}
@@ -178,32 +178,32 @@ class Node extends Entities\Entity implements INode
 	/**
 	 * {@inheritDoc}
 	 */
-	public function addRoute(Entities\Routes\IRoute $route): void
+	public function addDestination(Entities\Routes\Destinations\IDestination $route): void
 	{
 		// Check if collection does not contain inserting entity
-		if (!$this->routes->contains($route)) {
+		if (!$this->destinations->contains($route)) {
 			// ...and assign it to collection
-			$this->routes->add($route);
+			$this->destinations->add($route);
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getRoutes(): array
+	public function getDestinations(): array
 	{
-		return $this->routes->toArray();
+		return $this->destinations->toArray();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public function removeRoute(Entities\Routes\IRoute $route): void
+	public function removeDestination(Entities\Routes\Destinations\IDestination $route): void
 	{
 		// Check if collection contain removing entity...
-		if ($this->routes->contains($route)) {
+		if ($this->destinations->contains($route)) {
 			// ...and remove it from collection
-			$this->routes->removeElement($route);
+			$this->destinations->removeElement($route);
 		}
 	}
 

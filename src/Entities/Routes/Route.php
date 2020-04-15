@@ -16,6 +16,7 @@
 namespace FastyBird\GatewayNode\Entities\Routes;
 
 use Consistence\Doctrine\Enum\EnumAnnotation as Enum;
+use Doctrine\Common;
 use Doctrine\ORM\Mapping as ORM;
 use FastyBird\GatewayNode\Entities;
 use FastyBird\GatewayNode\Types;
@@ -35,11 +36,11 @@ use Throwable;
  *     },
  *     uniqueConstraints={
  *       @ORM\UniqueConstraint(name="route_name_unique", columns={"route_name"}),
- *       @ORM\UniqueConstraint(name="route_path_unique", columns={"route_path", "route_method"})
+ *       @ORM\UniqueConstraint(name="route_path_unique", columns={"route_method", "route_path"})
  *     },
  *     indexes={
- *       @ORM\Index(name="route_path_idx", columns={"route_path"}),
- *       @ORM\Index(name="route_method_idx", columns={"route_method"})
+ *       @ORM\Index(name="route_method_idx", columns={"route_method"}),
+ *       @ORM\Index(name="route_path_idx", columns={"route_path"})
  *     }
  * )
  */
@@ -67,14 +68,6 @@ class Route extends Entities\Entity implements IRoute
 	private $name;
 
 	/**
-	 * @var string
-	 *
-	 * @IPubDoctrine\Crud(is={"required", "writable"})
-	 * @ORM\Column(type="string", name="route_path", length=200, nullable=false)
-	 */
-	private $path;
-
-	/**
 	 * @var Types\RequestMethodType
 	 *
 	 * @Enum(class=Types\RequestMethodType::class)
@@ -87,38 +80,39 @@ class Route extends Entities\Entity implements IRoute
 	 * @var string
 	 *
 	 * @IPubDoctrine\Crud(is={"required", "writable"})
-	 * @ORM\Column(type="string", name="route_destination", length=200, nullable=false)
+	 * @ORM\Column(type="string", name="route_path", length=200, nullable=false)
 	 */
-	private $destination;
+	private $path;
 
 	/**
-	 * @var Entities\Routes\Nodes\INode
+	 * @var Common\Collections\Collection<int, Entities\Routes\Destinations\IDestination>
 	 *
 	 * @IPubDoctrine\Crud(is={"required", "writable"})
-	 * @ORM\ManyToOne(targetEntity="FastyBird\GatewayNode\Entities\Routes\Nodes\Node", inversedBy="routes", cascade={"persist"})
-	 * @ORM\JoinColumn(name="node_id", referencedColumnName="node_id", onDelete="CASCADE")
+	 * @ORM\OneToMany(targetEntity="FastyBird\GatewayNode\Entities\Routes\Destinations\Destination", mappedBy="route", cascade={"persist", "remove"}, orphanRemoval=true)
 	 */
-	private $node;
+	private $destinations;
 
 	/**
 	 * @param string $name
+	 * @param Types\RequestMethodType $method
 	 * @param string $path
-	 * @param string $destination
 	 * @param Uuid\UuidInterface|null $id
 	 *
 	 * @throws Throwable
 	 */
 	public function __construct(
 		string $name,
+		Types\RequestMethodType $method,
 		string $path,
-		string $destination,
 		?Uuid\UuidInterface $id = null
 	) {
 		$this->id = $id ?? Uuid\Uuid::uuid4();
 
 		$this->name = $name;
+		$this->method = $method;
 		$this->path = $path;
-		$this->destination = $destination;
+
+		$this->destinations = new Common\Collections\ArrayCollection();
 	}
 
 	/**
@@ -140,22 +134,6 @@ class Route extends Entities\Entity implements IRoute
 	/**
 	 * {@inheritDoc}
 	 */
-	public function setPath(string $path): void
-	{
-		$this->path = $path;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getPath(): string
-	{
-		return $this->path;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
 	public function setMethod(Types\RequestMethodType $method): void
 	{
 		$this->method = $method;
@@ -172,33 +150,66 @@ class Route extends Entities\Entity implements IRoute
 	/**
 	 * {@inheritDoc}
 	 */
-	public function setDestination(string $destination): void
+	public function setPath(string $path): void
 	{
-		$this->destination = $destination;
+		$this->path = $path;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getDestination(): string
+	public function getPath(): string
 	{
-		return $this->destination;
+		return $this->path;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public function setNode(Entities\Routes\Nodes\INode $node): void
+	public function setDestinations(array $destinations = []): void
 	{
-		$this->node = $node;
+		$this->destinations = new Common\Collections\ArrayCollection();
+
+		// Process all passed entities...
+		/** @var Entities\Routes\Destinations\IDestination $entity */
+		foreach ($destinations as $entity) {
+			if (!$this->destinations->contains($entity)) {
+				// ...and assign them to collection
+				$this->destinations->add($entity);
+			}
+		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getNode(): Entities\Routes\Nodes\INode
+	public function addDestination(Entities\Routes\Destinations\IDestination $destination): void
 	{
-		return $this->node;
+		// Check if collection does not contain inserting entity
+		if (!$this->destinations->contains($destination)) {
+			// ...and assign it to collection
+			$this->destinations->add($destination);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getDestinations(): array
+	{
+		return $this->destinations->toArray();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function removeDestination(Entities\Routes\Destinations\IDestination $destination): void
+	{
+		// Check if collection contain removing entity...
+		if ($this->destinations->contains($destination)) {
+			// ...and remove it from collection
+			$this->destinations->removeElement($destination);
+		}
 	}
 
 }
