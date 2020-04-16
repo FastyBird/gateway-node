@@ -106,8 +106,9 @@ class ServerStartHandler
 							$destination->getMethod()->getValue(),
 							$this->buildDestination($request, $destination),
 							[
-								GuzzleHttp\RequestOptions::QUERY => $request->getQueryParams(),
-								GuzzleHttp\RequestOptions::BODY  => $request->getBody()->getContents(),
+								GuzzleHttp\RequestOptions::QUERY   => $request->getQueryParams(),
+								GuzzleHttp\RequestOptions::BODY    => $request->getBody()->getContents(),
+								GuzzleHttp\RequestOptions::HEADERS => $this->buildHeaders($request, $destination),
 							]
 						);
 
@@ -156,6 +157,33 @@ class ServerStartHandler
 		$uri = $uri->withPath($path);
 
 		return (string) $uri;
+	}
+
+	/**
+	 * @param ServerRequestInterface $request
+	 * @param Entities\Routes\Destinations\IDestination $destination
+	 *
+	 * @return mixed[]
+	 */
+	private function buildHeaders(
+		ServerRequestInterface $request,
+		Entities\Routes\Destinations\IDestination $destination
+	): array {
+		$headers = [];
+
+		foreach ($request->getHeaders() as $name => $value) {
+			$headers[strtolower($name)] = reset($value);
+		}
+
+		$passHeaders = [];
+
+		foreach ($destination->getHeaders() as $header) {
+			if (array_key_exists($header, $headers)) {
+				$passHeaders[$header] = $headers[$header];
+			}
+		}
+
+		return $passHeaders;
 	}
 
 }

@@ -177,3 +177,5 @@ services:
 	- {factory: FastyBird\GatewayNode\Models\Keys\KeysManager(@ipubDoctrineCrud.crud::create(FastyBird\GatewayNode\Entities\Keys\Key))}
 
 	- {factory: FastyBird\GatewayNode\Models\Routes\RoutesManager(@ipubDoctrineCrud.crud::create(FastyBird\GatewayNode\Entities\Routes\Route))}
+
+	- {factory: FastyBird\GatewayNode\Models\Routes\Destinations\DestinationsManager(@ipubDoctrineCrud.crud::create(FastyBird\GatewayNode\Entities\Routes\Destinations\Destination))}

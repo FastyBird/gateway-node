@@ -32,6 +32,18 @@ interface INode extends Entities\IEntity,
 {
 
 	/**
+	 * @param string $name
+	 *
+	 * @return void
+	 */
+	public function setName(string $name): void;
+
+	/**
+	 * @return string
+	 */
+	public function getName(): string;
+
+	/**
 	 * @param Types\RequestSchemeType $scheme
 	 *
 	 * @return void

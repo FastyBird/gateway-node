@@ -75,6 +75,14 @@ class Destination extends Entities\Entity implements IDestination
 	private $path;
 
 	/**
+	 * @var string[]
+	 *
+	 * @IPubDoctrine\Crud(is="writable")
+	 * @ORM\Column(type="json", name="destination_headers", nullable=true)
+	 */
+	private $headers = [];
+
+	/**
 	 * @var Entities\Routes\Nodes\INode
 	 *
 	 * @IPubDoctrine\Crud(is={"required", "writable"})
@@ -140,6 +148,33 @@ class Destination extends Entities\Entity implements IDestination
 	public function getPath(): string
 	{
 		return $this->path;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function setHeaders(array $headers): void
+	{
+		$this->headers = $headers;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function addHeader(string $header): void
+	{
+		$headers = $this->headers;
+		$headers[] = $header;
+
+		$this->headers = array_unique($headers);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getHeaders(): array
+	{
+		return $this->headers;
 	}
 
 	/**

@@ -68,6 +68,25 @@ interface IRoute extends Entities\IEntity,
 	public function getPath(): string;
 
 	/**
+	 * @param string[] $headers
+	 *
+	 * @return void
+	 */
+	public function setHeaders(array $headers): void;
+
+	/**
+	 * @param string $header
+	 *
+	 * @return void
+	 */
+	public function addHeader(string $header): void;
+
+	/**
+	 * @return string[]
+	 */
+	public function getHeaders(): array;
+
+	/**
 	 * @param Entities\Routes\Destinations\IDestination[] $destinations
 	 *
 	 * @return void

@@ -85,6 +85,14 @@ class Route extends Entities\Entity implements IRoute
 	private $path;
 
 	/**
+	 * @var string[]
+	 *
+	 * @IPubDoctrine\Crud(is="writable")
+	 * @ORM\Column(type="json", name="route_headers", nullable=true)
+	 */
+	private $headers = [];
+
+	/**
 	 * @var Common\Collections\Collection<int, Entities\Routes\Destinations\IDestination>
 	 *
 	 * @IPubDoctrine\Crud(is={"required", "writable"})
@@ -161,6 +169,33 @@ class Route extends Entities\Entity implements IRoute
 	public function getPath(): string
 	{
 		return $this->path;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function setHeaders(array $headers): void
+	{
+		$this->headers = $headers;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function addHeader(string $header): void
+	{
+		$headers = $this->headers;
+		$headers[] = $header;
+
+		$this->headers = array_unique($headers);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getHeaders(): array
+	{
+		return $this->headers;
 	}
 
 	/**

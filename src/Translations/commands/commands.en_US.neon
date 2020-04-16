@@ -26,17 +26,27 @@ keyCreate:
 
 routeCreate:
 	inputs:
-		name:
+		routeName:
 			title	: "Route name"
-		path:
+		routePath:
 			title	: "Route path"
-		method:
+		routeMethod:
+			title	: "Route method"
+		destinationPath:
+			title	: "Destination path"
+		destinationMethod:
 			title	: "Call method"
-		destination:
-			title	: "Pestination path"
+		destinationScheme:
+			title	: "Destination scheme"
+		destinationHost:
+			title	: "Destination host"
+		destinationPort:
+			title	: "Destination host port"
 
 	validation:
 		key:
 			wasNotCreated	: "Route mapping could not be created. Please try again later."
 
-	success	: "Route mapping with name '%name%' was successfully created"
+	success:
+		created: "Route mapping with name '%name%' was successfully created"
+		updated: "Route mapping with name '%name%' was successfully updated"

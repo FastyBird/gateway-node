@@ -42,11 +42,17 @@ class CreateCommand extends Console\Command\Command
 
 	use Nette\SmartObject;
 
+	/** @var Models\Routes\IRouteRepository */
+	private $routeRepository;
+
 	/** @var Models\Routes\IRoutesManager */
 	private $routesManager;
 
 	/** @var Models\Routes\Nodes\INodeRepository */
 	private $nodeRepository;
+
+	/** @var Models\Routes\Destinations\IDestinationsManager */
+	private $destinationsManager;
 
 	/** @var Translation\PrefixedTranslator */
 	private $translator;
@@ -55,20 +61,26 @@ class CreateCommand extends Console\Command\Command
 	private $translationDomain = 'commands.routeCreate';
 
 	/**
+	 * @param Models\Routes\IRouteRepository $routeRepository
 	 * @param Models\Routes\IRoutesManager $routesManager
 	 * @param Models\Routes\Nodes\INodeRepository $nodeRepository
+	 * @param Models\Routes\Destinations\IDestinationsManager $destinationsManager
 	 * @param Translation\Translator $translator
 	 * @param string|null $name
 	 */
 	public function __construct(
+		Models\Routes\IRouteRepository $routeRepository,
 		Models\Routes\IRoutesManager $routesManager,
 		Models\Routes\Nodes\INodeRepository $nodeRepository,
+		Models\Routes\Destinations\IDestinationsManager $destinationsManager,
 		Translation\Translator $translator,
 		?string $name = null
 	) {
 		// Modules models
+		$this->routeRepository = $routeRepository;
 		$this->routesManager = $routesManager;
 		$this->nodeRepository = $nodeRepository;
+		$this->destinationsManager = $destinationsManager;
 
 		$this->translator = new Translation\PrefixedTranslator($translator, $this->translationDomain);
 
@@ -82,7 +94,7 @@ class CreateCommand extends Console\Command\Command
 	{
 		$this
 			->setName('fb:gateway-node:routes:create')
-			->addArgument('name', Input\InputArgument::OPTIONAL, $this->translator->translate('name.title'))
+			->addArgument('name', Input\InputArgument::OPTIONAL, $this->translator->translate('inputs.routeName.title'))
 			->addOption('noconfirm', null, Input\InputOption::VALUE_NONE, 'do not ask for any confirmation')
 			->setDescription('Create route mapping.');
 	}
@@ -100,54 +112,114 @@ class CreateCommand extends Console\Command\Command
 			$name = $input->getArgument('name');
 
 		} else {
-			$name = $io->ask($this->translator->translate('inputs.name.title'));
+			$name = $io->ask($this->translator->translate('inputs.routeName.title'));
 		}
 
 		if ($input->hasArgument('path') && $input->getArgument('path')) {
 			$path = $input->getArgument('path');
 
 		} else {
-			$path = $io->ask($this->translator->translate('inputs.path.title'));
+			$path = $io->ask($this->translator->translate('inputs.routePath.title'));
 		}
 
-		$method = $io->choice($this->translator->translate('inputs.method.title'), ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'], 'GET');
+		$routeMethod = $io->choice(
+			$this->translator->translate('inputs.routeMethod.title'),
+			[
+				Types\RequestMethodType::METHOD_GET,
+				Types\RequestMethodType::METHOD_POST,
+				Types\RequestMethodType::METHOD_PATCH,
+				Types\RequestMethodType::METHOD_PUT,
+				Types\RequestMethodType::METHOD_DELETE,
+			],
+			Types\RequestMethodType::METHOD_GET
+		);
 
 		if ($input->hasArgument('destination') && $input->getArgument('destination')) {
-			$destination = $input->getArgument('destination');
+			$destinationPath = $input->getArgument('destination');
 
 		} else {
-			$destination = $io->ask($this->translator->translate('inputs.destination.title'));
+			$destinationPath = $io->ask($this->translator->translate('inputs.destinationPath.title'));
+		}
+
+		$destinationMethod = $io->choice(
+			$this->translator->translate('inputs.destinationMethod.title'),
+			[
+				Types\RequestMethodType::METHOD_GET,
+				Types\RequestMethodType::METHOD_POST,
+				Types\RequestMethodType::METHOD_PATCH,
+				Types\RequestMethodType::METHOD_PUT,
+				Types\RequestMethodType::METHOD_DELETE,
+			],
+			$routeMethod
+		);
+
+		$destinationScheme = $io->choice(
+			$this->translator->translate('inputs.destinationScheme.title'),
+			[
+				Types\RequestSchemeType::METHOD_HTTP,
+				Types\RequestSchemeType::METHOD_HTTPS,
+			],
+			Types\RequestSchemeType::METHOD_HTTP
+		);
+
+		if ($input->hasArgument('host') && $input->getArgument('host')) {
+			$destinationHost = $input->getArgument('host');
+
+		} else {
+			$destinationHost = $io->ask($this->translator->translate('inputs.destinationHost.title'));
+		}
+
+		if ($input->hasArgument('port') && $input->getArgument('port')) {
+			$destinationPort = $input->getArgument('port');
+
+		} else {
+			$destinationPort = $io->ask($this->translator->translate('inputs.destinationPort.title'));
 		}
 
 		try {
-			$createRoute = new Utils\ArrayHash();
-			$createRoute->offsetSet('name', $name);
-			$createRoute->offsetSet('path', $path);
-			$createRoute->offsetSet('method', Types\RequestMethodType::get($method));
-			$createRoute->offsetSet('destination', $destination);
-
-			// TODO: Fix wired values
+			// Try to find node by given details
 			$findQuery = new Queries\FindRouteNodeQuery();
-			$findQuery->byScheme('http');
-			$findQuery->byHost('localhost');
-			$findQuery->byPort(8001);
+			$findQuery->byScheme($destinationScheme);
+			$findQuery->byHost($destinationHost);
+			$findQuery->byPort((int) $destinationPort);
 
 			$node = $this->nodeRepository->findOneBy($findQuery);
 
 			if ($node === null) {
-				$createNode = new Utils\ArrayHash();
-				$createNode->entity = Entities\Routes\Nodes\Node::class;
-				$createNode->scheme = Types\RequestSchemeType::get(Types\RequestSchemeType::METHOD_HTTP);
-				$createNode->host = 'localhost';
-				$createNode->port = 8001;
-
-				$createRoute->offsetSet('node', $createNode);
-
-			} else {
-				$createRoute->offsetSet('node', $node);
+				// Node is not created, create new one
+				$node = new Utils\ArrayHash();
+				$node->offsetSet('entity', Entities\Routes\Nodes\Node::class);
+				$node->offsetSet('name', $destinationHost . ':' . $destinationPort);
+				$node->offsetSet('scheme', Types\RequestSchemeType::get($destinationScheme));
+				$node->offsetSet('host', $destinationHost);
+				$node->offsetSet('port', (int) $destinationPort);
 			}
 
-			$route = $this->routesManager->create($createRoute);
+			$destination = new Utils\ArrayHash();
+			$destination->offsetSet('path', $destinationPath);
+			$destination->offsetSet('method', Types\RequestMethodType::get($destinationMethod));
+			$destination->offsetSet('node', $node);
+
+			$findQuery = new Queries\FindRouteQuery();
+			$findQuery->byPath($path);
+			$findQuery->byMethod($routeMethod);
+
+			$route = $this->routeRepository->findOneBy($findQuery);
+
+			if ($route !== null) {
+				$destination->offsetSet('route', $route);
+
+				$this->destinationsManager->create($destination);
+
+			} else {
+				$createRoute = new Utils\ArrayHash();
+				$createRoute->offsetSet('name', $name);
+				$createRoute->offsetSet('path', $path);
+				$createRoute->offsetSet('method', Types\RequestMethodType::get($routeMethod));
+				$createRoute->offsetSet('destinations', [$destination]);
+
+				$route = $this->routesManager->create($createRoute);
+			}
 
 			$io->text(sprintf('<info>%s</info>', $this->translator->translate('success', ['name' => $route->getName()])));
 

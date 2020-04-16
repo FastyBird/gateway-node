@@ -55,6 +55,14 @@ class Node extends Entities\Entity implements INode
 	protected $id;
 
 	/**
+	 * @var string
+	 *
+	 * @IPubDoctrine\Crud(is={"required", "writable"})
+	 * @ORM\Column(type="string", name="node_name", length=20, nullable=false)
+	 */
+	private $name;
+
+	/**
 	 * @var Types\RequestSchemeType
 	 *
 	 * @Enum(class=Types\RequestSchemeType::class)
@@ -108,6 +116,22 @@ class Node extends Entities\Entity implements INode
 		$this->port = $port;
 
 		$this->destinations = new Common\Collections\ArrayCollection();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function setName(string $name): void
+	{
+		$this->name = $name;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getName(): string
+	{
+		return $this->name;
 	}
 
 	/**
