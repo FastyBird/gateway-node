@@ -138,7 +138,6 @@ services:
 
 				origin.protocol: http
 				origin.server: %server.domain%
-				origin.port: %server.port%
 		tags:
 			middleware: {priority: 60}
 
