@@ -86,18 +86,7 @@ final class CorsMiddleware implements MiddlewareInterface
 		$this->logger = $logger;
 
 		foreach ($options as $key => $value) {
-			$key = str_replace('.', ' ', $key);
-
-			$method = lcfirst(ucwords($key));
-			$method = str_replace(' ', '', $method);
-
-			$callable = [$this, $method];
-
-			if (is_callable($callable)) {
-				call_user_func($callable, $value);
-			} else {
-				$this->options[$key] = $value;
-			}
+			$this->options[$key] = $value;
 		}
 	}
 
