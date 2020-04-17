@@ -100,6 +100,8 @@ class ServerStartHandler
 
 				$lastError = null;
 
+				$requestBody = $request->getBody()->getContents();
+
 				foreach ($route->getDestinations() as $destination) {
 					try {
 						return $client->request(
@@ -107,7 +109,7 @@ class ServerStartHandler
 							$this->buildDestination($request, $destination),
 							[
 								GuzzleHttp\RequestOptions::QUERY   => $request->getQueryParams(),
-								GuzzleHttp\RequestOptions::BODY    => $request->getBody()->getContents(),
+								GuzzleHttp\RequestOptions::BODY    => $requestBody,
 								GuzzleHttp\RequestOptions::HEADERS => $this->buildHeaders($request, $destination),
 							]
 						);
