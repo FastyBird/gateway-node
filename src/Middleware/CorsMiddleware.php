@@ -186,7 +186,14 @@ final class CorsMiddleware implements MiddlewareInterface
 		}
 
 		$settings->setPreFlightCacheMaxAge((int) $this->options['cache']);
-		$settings->setAllowedOrigins((array) $this->options['origin']);
+
+		if ($this->options['origin'] === '*') {
+			$settings->enableAllOriginsAllowed();
+
+		} else {
+			$settings->setAllowedOrigins((array) $this->options['origin']);
+		}
+
 		$settings->setAllowedMethods((array) $this->options['methods']);
 		$settings->setAllowedHeaders((array) $this->options['headers.allow']);
 		$settings->setExposedHeaders((array) $this->options['headers.expose']);
