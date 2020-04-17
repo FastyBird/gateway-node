@@ -34,7 +34,7 @@ use Throwable;
  *       "comment"="Routes destinations"
  *     },
  *     uniqueConstraints={
- *       @ORM\UniqueConstraint(name="destination_path_unique", columns={"destination_method", "destination_path"})
+ *       @ORM\UniqueConstraint(name="destination_path_unique", columns={"destination_method", "destination_path", "node_id"})
  *     },
  *     indexes={
  *       @ORM\Index(name="destination_method_idx", columns={"destination_method"}),

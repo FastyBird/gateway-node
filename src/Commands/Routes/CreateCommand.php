@@ -211,6 +211,8 @@ class CreateCommand extends Console\Command\Command
 
 				$this->destinationsManager->create($destination);
 
+				$io->text(sprintf('<info>%s</info>', $this->translator->translate('success.updated', ['name' => $route->getName()])));
+
 			} else {
 				$createRoute = new Utils\ArrayHash();
 				$createRoute->offsetSet('name', $name);
@@ -219,9 +221,9 @@ class CreateCommand extends Console\Command\Command
 				$createRoute->offsetSet('destinations', [$destination]);
 
 				$route = $this->routesManager->create($createRoute);
-			}
 
-			$io->text(sprintf('<info>%s</info>', $this->translator->translate('success', ['name' => $route->getName()])));
+				$io->text(sprintf('<info>%s</info>', $this->translator->translate('success.created', ['name' => $route->getName()])));
+			}
 
 		} catch (Throwable $ex) {
 			Debugger::log($ex);

@@ -21,4 +21,5 @@ parameters:
 
 	server:
 		address: 0.0.0.0
+		domain: localhost
 		port: 8000
