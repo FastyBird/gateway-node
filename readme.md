@@ -91,7 +91,7 @@ Configuration could be made via environment variables:
 | `FB_NODE_PARAMETER__CORS_ORIGIN=*` | HTTP server allowed origins |
 | `FB_NODE_PARAMETER__CORS_PROTOCOL=http` | HTTP server origin protocol |
 | `FB_NODE_PARAMETER__CORS_DOMAIN=localhost` | HTTP server origin domain |
-| `FB_NODE_PARAMETER__CORS_PORT=80` | HTTP server origin port |
+| `FB_NODE_PARAMETER__CORS_PORT=8000` | HTTP server origin port |
 
 > **NOTE:** In case you are not using docker image or you are not able to configure environment variables, you could edit configuration file `./config/default.neon`
 
