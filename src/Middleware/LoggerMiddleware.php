@@ -57,7 +57,7 @@ class LoggerMiddleware implements MiddlewareInterface
 
 		switch ($statusCode) {
 			case 500:
-				$this->logger->critical('Oops!!! the server got 500 error', [
+				$this->logger->critical('[MIDDLEWARE] Oops!!! the server got 500 error', [
 					'ip'     => $request->getAttribute('ip_address'),
 					'uri'    => $uri,
 					'status' => $statusCode,
@@ -65,7 +65,7 @@ class LoggerMiddleware implements MiddlewareInterface
 				break;
 
 			case 404:
-				$this->logger->warning('Someone calling un-existing API action', [
+				$this->logger->warning('[MIDDLEWARE] Someone calling un-existing API action', [
 					'ip'     => $request->getAttribute('ip_address'),
 					'method' => $request->getMethod(),
 					'uri'    => $uri,
@@ -74,7 +74,7 @@ class LoggerMiddleware implements MiddlewareInterface
 				break;
 
 			case 401:
-				$this->logger->warning('Someone calling API action without access', [
+				$this->logger->warning('[MIDDLEWARE] Someone calling API action without access', [
 					'ip'     => $request->getAttribute('ip_address'),
 					'uri'    => $uri,
 					'status' => $statusCode,
@@ -82,7 +82,7 @@ class LoggerMiddleware implements MiddlewareInterface
 				break;
 
 			default:
-				$this->logger->info('Someone calling existing API action', [
+				$this->logger->info('[MIDDLEWARE] Someone calling existing API action', [
 					'ip'     => $request->getAttribute('ip_address'),
 					'uri'    => $uri,
 					'status' => $statusCode,
