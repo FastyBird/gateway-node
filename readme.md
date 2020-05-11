@@ -10,13 +10,13 @@
 
 ## What is FastyBird gateway node?
 
-Gateway node is a core microservice for controlling whole ecosystem of FastyBird ecosystem via {JSON:API} interface.
+Gateway node is a core microservice for controlling whole ecosystem of FastyBird ecosystem via [{JSON:API}](https://jsonapi.org/) interface.
 
 FastyBird gateway node is an Apache2 licensed distributed microservice, developed in PHP with [Nette framework](https://nette.org).
 
 ## Requirements
 
-FastyBird devices node is tested against PHP 7.3 and [ReactPHP http](https://github.com/reactphp/http) 0.8 event-driven, streaming plaintext HTTP server and [RabbitMQ](https://www.rabbitmq.com/) 3.7 message broker
+FastyBird gateway node is tested against PHP 7.3 and [ReactPHP http](https://github.com/reactphp/http) 0.8 event-driven, streaming plaintext HTTP server and [RabbitMQ](https://www.rabbitmq.com/) 3.7 message broker
 
 ## Getting started
 
@@ -54,7 +54,7 @@ Docker image: [fastybird/gateway-node](https://hub.docker.com/r/fastybird/gatewa
 ### Use docker hub image
 
 ```bash
-$ docker run -d -it --name devices fastybird/gateway-node:latest
+$ docker run -d -it --name gateway fastybird/gateway-node:latest
 ```
 
 ### Generate local image
@@ -88,12 +88,36 @@ Configuration could be made via environment variables:
 | `FB_NODE_PARAMETER__SERVER_ADDRESS=0.0.0.0` | HTTP server host address |
 | `FB_NODE_PARAMETER__SERVER_PORT=8000` | HTTP server access port |
 | | |
-| `FB_NODE_PARAMETER__CORS_ORIGIN=*` | HTTP server allowed origins |
-| `FB_NODE_PARAMETER__CORS_PROTOCOL=http` | HTTP server origin protocol |
-| `FB_NODE_PARAMETER__CORS_DOMAIN=localhost` | HTTP server origin domain |
-| `FB_NODE_PARAMETER__CORS_PORT=8000` | HTTP server origin port |
+| `FB_NODE_PARAMETER__NODE_HEADERS_CORS_ORIGIN=*` | HTTP server allowed origins |
+| `FB_NODE_PARAMETER__NODE_HEADERS_CORS_PROTOCOL=http` | HTTP server origin protocol |
+| `FB_NODE_PARAMETER__NODE_HEADERS_CORS_DOMAIN=localhost` | HTTP server origin domain |
+| `FB_NODE_PARAMETER__NODE_HEADERS_CORS_PORT=8000` | HTTP server origin port |
 
 > **NOTE:** In case you are not using docker image or you are not able to configure environment variables, you could edit configuration file `./config/default.neon`
+
+## Initialization
+
+This microservice is using database, so you have to initialise basic database schema. It could be done via shell command:
+
+```sh
+$ php vendor/bin/doctrine orm:schema-tool:create
+```
+
+After schema is created, you should create api token to protect api endpoints:
+
+```sh
+$ vendor/bin/fb-console fb:gateway-node:keys:create
+```
+
+And now could be defined routes:
+
+```sh
+$ vendor/bin/fb-console fb:gateway-node:routes:create
+```
+
+Console command will ask you for all required information.
+
+After this steps, microservice could be started with [server command](#http-server)
 
 ## Feedback
 

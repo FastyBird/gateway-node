@@ -136,10 +136,10 @@ services:
 				headers.expose:
 					- x-member-instance
 
-				origin: %cors.origin%
-				origin.protocol: %cors.protocol%
-				origin.server: %cors.domain%
-				origin.port: %cors.port%
+				origin: %node.headers.cors.origin%
+				origin.protocol: %node.headers.cors.protocol%
+				origin.server: %node.headers.cors.domain%
+				origin.port: %node.headers.cors.port%
 		tags:
 			middleware: {priority: 60}
 

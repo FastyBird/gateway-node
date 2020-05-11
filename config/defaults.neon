@@ -23,9 +23,11 @@ parameters:
 		address: 0.0.0.0
 		port: 8000
 
-	cors:
-		origin: *
+	node:
+		headers:
+			cors:
+				origin: *
 
-		protocol: http
-		domain: localhost
-		port: 8000
+				protocol: http
+				domain: localhost
+				port: 8000
