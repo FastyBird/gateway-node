@@ -118,6 +118,9 @@ class ServerStartHandler
 						if ($ex->getResponse() !== null) {
 							$lastError = $ex->getResponse();
 						}
+
+					} catch (GuzzleHttp\Exception\ConnectException $ex) {
+						// Connection to microservice failed
 					}
 				}
 
