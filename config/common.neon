@@ -104,6 +104,8 @@ nettrineOrm:
 		proxyDir	: %tempDir%/cache/doctrine.proxies
 
 nettrineOrmAnnotations:
+	namespaces:
+		- FastyBird\GatewayNode\Entities
 	paths:
 		- %appDir%/src/Entities
 
