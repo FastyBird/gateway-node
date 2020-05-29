@@ -36,6 +36,7 @@
     "ext-json" : "*",
     "contributte/translation" : "^0.6",
     "cweagans/composer-patches" : "^1.6",
+    "doctrine/orm": "2.7.2",
     "fastybird/node-libs" : "^0.5",
     "fastybird/node-web-server" : "^0.3",
     "guzzlehttp/guzzle" : "^6.5",
@@ -45,7 +46,7 @@
     "ipub/doctrine-timestampable" : "^1.4",
     "neomerx/cors-psr7" : "^2.0",
     "nettrine/cache" : "^0.1",
-    "nettrine/orm" : "^0.5",
+    "nettrine/orm" : "^0.6",
     "phpdocumentor/reflection-docblock" : "^5.1",
     "ramsey/uuid" : "^3.9",
     "ramsey/uuid-doctrine" : "^1.6"
