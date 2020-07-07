@@ -3,9 +3,6 @@
 namespace Tests\Cases;
 
 use Contributte\Translation;
-use Doctrine\Common;
-use Doctrine\DBAL;
-use Doctrine\ORM;
 use FastyBird\GatewayNode\Events;
 use FastyBird\GatewayNode\Models;
 use IPub\SlimRouter\Routing as SlimRouterRouting;
