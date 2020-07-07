@@ -19,6 +19,7 @@ parameters:
 
 	rabbitmq:
 		queueName: fb.gateway.node.exchange
+		routing: []
 
 #########################
 # Used Nette extensions #
@@ -37,6 +38,7 @@ extensions:
 	nettrineOrmConsole			: Nettrine\ORM\DI\OrmConsoleExtension
 	nettrineOrmCache			: Nettrine\ORM\DI\OrmCacheExtension
 	nodeWebServer				: FastyBird\NodeWebServer\DI\NodeWebServerExtension
+	nodeDatabase				: FastyBird\NodeDatabase\DI\NodeDatabaseExtension
 
 ##################################
 # Nette extensions configuration #
@@ -117,9 +119,6 @@ decorator:
 	FastyBird\NodeWebServer\Commands\HttpServerCommand:
 		setup:
 			- '$onServerStart[]' = @FastyBird\GatewayNode\Events\ServerStartHandler
-			- '$onRequest[]' = @FastyBird\GatewayNode\Events\RequestHandler
-			- '$onResponse[]' = @FastyBird\GatewayNode\Events\ResponseHandler
-			- '$onAfterConsumeMessage[]' = @FastyBird\GatewayNode\Events\AfterConsumeHandler
 
 services:
 	# Http middlewares
@@ -145,8 +144,6 @@ services:
 		tags:
 			middleware: {priority: 60}
 
-	- {factory: FastyBird\GatewayNode\Middleware\DbErrorMiddleware, tags: [middleware: {priority: 50}]}
-
 	- {factory: FastyBird\GatewayNode\Middleware\LoggerMiddleware, tags: [middleware: {priority: 40}]}
 
 	- {factory: FastyBird\GatewayNode\Middleware\ApiKeyValidatorMiddleware, tags: [middleware: {priority: 30}]}
@@ -155,12 +152,6 @@ services:
 	#############
 
 	- {factory: FastyBird\GatewayNode\Events\ServerStartHandler}
-
-	- {factory: FastyBird\GatewayNode\Events\RequestHandler}
-
-	- {factory: FastyBird\GatewayNode\Events\ResponseHandler}
-
-	- {factory: FastyBird\GatewayNode\Events\AfterConsumeHandler}
 
 	# Console commands
 	##################

@@ -16,14 +16,11 @@
 namespace FastyBird\GatewayNode\Events;
 
 use Contributte\Translation;
-use Doctrine\Common;
-use Doctrine\DBAL;
-use Doctrine\ORM;
 use FastyBird\GatewayNode\Entities;
 use FastyBird\GatewayNode\Models;
 use FastyBird\GatewayNode\Queries;
+use FastyBird\NodeJsonApi\Exceptions  as NodeJsonApiExceptions;
 use FastyBird\NodeLibs\Exceptions as NodeLibsExceptions;
-use FastyBird\NodeWebServer\Exceptions as NodeWebServerExceptions;
 use Fig\Http\Message\StatusCodeInterface;
 use GuzzleHttp;
 use IPub\SlimRouter\Routing as SlimRouterRouting;
@@ -54,19 +51,14 @@ class ServerStartHandler
 	/** @var Translation\Translator */
 	private $translator;
 
-	/** @var Common\Persistence\ManagerRegistry */
-	private $managerRegistry;
-
 	public function __construct(
 		Models\Routes\IRouteRepository $routeRepository,
 		SlimRouterRouting\IRouter $router,
-		Translation\Translator $translator,
-		Common\Persistence\ManagerRegistry $managerRegistry
+		Translation\Translator $translator
 	) {
 		$this->routeRepository = $routeRepository;
 		$this->router = $router;
 		$this->translator = $translator;
-		$this->managerRegistry = $managerRegistry;
 	}
 
 	/**
@@ -76,17 +68,6 @@ class ServerStartHandler
 	 */
 	public function __invoke(): void
 	{
-		try {
-			$em = $this->managerRegistry->getManager();
-
-			if ($em instanceof ORM\EntityManagerInterface) {
-				$em->getConnection()->ping();
-			}
-
-		} catch (DBAL\DBALException $ex) {
-			throw new NodeLibsExceptions\TerminateException('Database error: ' . $ex->getMessage(), $ex->getCode(), $ex);
-		}
-
 		$findQuery = new Queries\FindRouteQuery();
 
 		$routes = $this->routeRepository->findAllBy($findQuery);
@@ -128,7 +109,7 @@ class ServerStartHandler
 					return $lastError;
 				}
 
-				throw new NodeWebServerExceptions\JsonApiErrorException(
+				throw new NodeJsonApiExceptions\JsonApiErrorException(
 					StatusCodeInterface::STATUS_INTERNAL_SERVER_ERROR,
 					$this->translator->translate('//node.base.messages.serverError.heading'),
 					$this->translator->translate('//node.base.messages.serverError.message')

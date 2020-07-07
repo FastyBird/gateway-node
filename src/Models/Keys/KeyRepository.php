@@ -16,7 +16,7 @@
 namespace FastyBird\GatewayNode\Models\Keys;
 
 use Doctrine\Common;
-use Doctrine\ORM;
+use Doctrine\Persistence;
 use FastyBird\GatewayNode\Entities;
 use Nette;
 
@@ -36,7 +36,7 @@ final class KeyRepository implements IKeyRepository
 	/** @var Common\Persistence\ManagerRegistry */
 	private $managerRegistry;
 
-	/** @var ORM\EntityRepository<Entities\Keys\Key>|null */
+	/** @var Persistence\ObjectRepository<Entities\Keys\Key>|null */
 	private $repository = null;
 
 	public function __construct(Common\Persistence\ManagerRegistry $managerRegistry)
@@ -67,9 +67,9 @@ final class KeyRepository implements IKeyRepository
 	}
 
 	/**
-	 * @return ORM\EntityRepository<Entities\Keys\Key>
+	 * @return Persistence\ObjectRepository<Entities\Keys\Key>
 	 */
-	private function getRepository(): ORM\EntityRepository
+	private function getRepository(): Persistence\ObjectRepository
 	{
 		if ($this->repository === null) {
 			$this->repository = $this->managerRegistry->getRepository(Entities\Keys\Key::class);

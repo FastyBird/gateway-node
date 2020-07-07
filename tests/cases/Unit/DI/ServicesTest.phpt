@@ -27,14 +27,10 @@ final class ServicesTest extends BaseTestCase
 		$container = $configurator->createContainer();
 
 		Assert::notNull($container->getByType(Middleware\ApiKeyValidatorMiddleware::class));
-		Assert::notNull($container->getByType(Middleware\DbErrorMiddleware::class));
 		Assert::notNull($container->getByType(Middleware\CorsMiddleware::class));
 		Assert::notNull($container->getByType(Middleware\LoggerMiddleware::class));
 
 		Assert::notNull($container->getByType(Events\ServerStartHandler::class));
-		Assert::notNull($container->getByType(Events\RequestHandler::class));
-		Assert::notNull($container->getByType(Events\ResponseHandler::class));
-		Assert::notNull($container->getByType(Events\AfterConsumeHandler::class));
 
 		Assert::notNull($container->getByType(Commands\Keys\CreateCommand::class));
 		Assert::notNull($container->getByType(Commands\Routes\CreateCommand::class));

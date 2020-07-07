@@ -20,27 +20,6 @@ final class ServerStartHandlerTest extends BaseMockeryTestCase
 
 	public function testServerStart(): void
 	{
-		$connection = Mockery::mock(DBAL\Connection::class);
-		$connection
-			->shouldReceive('ping')
-			->withNoArgs()
-			->andReturn(true)
-			->times(1);
-
-		$manager = Mockery::mock(ORM\EntityManagerInterface::class);
-		$manager
-			->shouldReceive('getConnection')
-			->withNoArgs()
-			->andReturn($connection)
-			->times(1);
-
-		$managerRegistry = Mockery::mock(Common\Persistence\ManagerRegistry::class);
-		$managerRegistry
-			->shouldReceive('getManager')
-			->withNoArgs()
-			->andReturn($manager)
-			->times(1);
-
 		$routeRepository = Mockery::mock(Models\Routes\IRouteRepository::class);
 		$routeRepository
 			->shouldReceive('findAllBy')
@@ -54,8 +33,7 @@ final class ServerStartHandlerTest extends BaseMockeryTestCase
 		$subscriber = new Events\ServerStartHandler(
 			$routeRepository,
 			$router,
-			$translator,
-			$managerRegistry
+			$translator
 		);
 
 		$subscriber->__invoke();

@@ -16,7 +16,7 @@
 namespace FastyBird\GatewayNode\Middleware;
 
 use Contributte\Translation;
-use FastyBird\NodeWebServer\Exceptions as NodeWebServerExceptions;
+use FastyBird\NodeJsonApi\Exceptions  as NodeJsonApiExceptions;
 use FastyBird\NodeWebServer\Http as NodeWebServerHttp;
 use Fig\Http\Message\RequestMethodInterface;
 use Fig\Http\Message\StatusCodeInterface;
@@ -96,7 +96,7 @@ final class CorsMiddleware implements MiddlewareInterface
 	 *
 	 * @return ResponseInterface
 	 *
-	 * @throws NodeWebServerExceptions\IJsonApiException
+	 * @throws NodeJsonApiExceptions\IJsonApiException
 	 * @throws Translation\Exceptions\InvalidArgument
 	 */
 	public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
@@ -108,21 +108,21 @@ final class CorsMiddleware implements MiddlewareInterface
 
 		switch ($cors->getRequestType()) {
 			case CorsAnalysisResultInterface::ERR_ORIGIN_NOT_ALLOWED:
-				throw new NodeWebServerExceptions\JsonApiErrorException(
+				throw new NodeJsonApiExceptions\JsonApiErrorException(
 					StatusCodeInterface::STATUS_UNAUTHORIZED,
 					$this->translator->translate('//node.base.messages.notAllowed.heading'),
 					'CORS request origin is not allowed.'
 				);
 
 			case CorsAnalysisResultInterface::ERR_METHOD_NOT_SUPPORTED:
-				throw new NodeWebServerExceptions\JsonApiErrorException(
+				throw new NodeJsonApiExceptions\JsonApiErrorException(
 					StatusCodeInterface::STATUS_UNAUTHORIZED,
 					$this->translator->translate('//node.base.messages.notAllowed.heading'),
 					'CORS requested method is not supported.'
 				);
 
 			case CorsAnalysisResultInterface::ERR_HEADERS_NOT_SUPPORTED:
-				throw new NodeWebServerExceptions\JsonApiErrorException(
+				throw new NodeJsonApiExceptions\JsonApiErrorException(
 					StatusCodeInterface::STATUS_UNAUTHORIZED,
 					$this->translator->translate('//node.base.messages.notAllowed.heading'),
 					'CORS requested header is not allowed.'

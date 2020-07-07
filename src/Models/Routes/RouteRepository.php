@@ -16,7 +16,7 @@
 namespace FastyBird\GatewayNode\Models\Routes;
 
 use Doctrine\Common;
-use Doctrine\ORM;
+use Doctrine\Persistence;
 use FastyBird\GatewayNode\Entities;
 use FastyBird\GatewayNode\Queries;
 use Nette;
@@ -38,7 +38,7 @@ final class RouteRepository implements IRouteRepository
 	/** @var Common\Persistence\ManagerRegistry */
 	private $managerRegistry;
 
-	/** @var ORM\EntityRepository<Entities\Routes\Route>|null */
+	/** @var Persistence\ObjectRepository<Entities\Routes\Route>|null */
 	private $repository = null;
 
 	public function __construct(Common\Persistence\ManagerRegistry $managerRegistry)
@@ -72,9 +72,9 @@ final class RouteRepository implements IRouteRepository
 	}
 
 	/**
-	 * @return ORM\EntityRepository<Entities\Routes\Route>
+	 * @return Persistence\ObjectRepository<Entities\Routes\Route>
 	 */
-	private function getRepository(): ORM\EntityRepository
+	private function getRepository(): Persistence\ObjectRepository
 	{
 		if ($this->repository === null) {
 			$this->repository = $this->managerRegistry->getRepository(Entities\Routes\Route::class);
