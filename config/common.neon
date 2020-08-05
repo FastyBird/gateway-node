@@ -104,8 +104,7 @@ nettrineOrm:
 
 nettrineOrmAnnotations:
 	namespaces:
-		- FastyBird\DevicesNode\Entities
-		- FastyBird\NodeAuth\Entities
+		- FastyBird\GatewayNode\Entities
 	paths:
 		- %appDir%/src/Entities
 
