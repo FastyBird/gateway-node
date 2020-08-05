@@ -12,16 +12,12 @@ parameters:
 		username: root
 		password:
 
-	rabbitmq:
-		host: 127.0.0.1
-		port: 5672
-		vhost: /
-		username: guest
-		password: guest
-
 	server:
 		address: 0.0.0.0
 		port: 8000
+
+	security:
+		signature: 'g3xHbkELpMD9LRqW4WmJkHL7kz2bdNYAQJyEuFVzR3k='
 
 	node:
 		headers:

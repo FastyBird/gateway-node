@@ -20,7 +20,6 @@ use FastyBird\GatewayNode\Entities;
 use FastyBird\GatewayNode\Models;
 use FastyBird\GatewayNode\Queries;
 use FastyBird\NodeJsonApi\Exceptions  as NodeJsonApiExceptions;
-use FastyBird\NodeLibs\Exceptions as NodeLibsExceptions;
 use Fig\Http\Message\StatusCodeInterface;
 use GuzzleHttp;
 use IPub\SlimRouter\Routing as SlimRouterRouting;
@@ -63,8 +62,6 @@ class ServerStartHandler
 
 	/**
 	 * @return void
-	 *
-	 * @throws NodeLibsExceptions\TerminateException
 	 */
 	public function __invoke(): void
 	{

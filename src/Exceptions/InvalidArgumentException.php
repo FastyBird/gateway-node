@@ -15,9 +15,9 @@
 
 namespace FastyBird\GatewayNode\Exceptions;
 
-use FastyBird\NodeLibs\Exceptions as NodeLibsExceptions;
+use RuntimeException;
 
-class InvalidArgumentException extends NodeLibsExceptions\InvalidArgumentException implements IException
+class InvalidArgumentException extends RuntimeException implements IException
 {
 
 }

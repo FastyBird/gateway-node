@@ -17,19 +17,12 @@
 parameters:
 	origin: com.fastybird.gateway-node
 
-	rabbitmq:
-		queueName: fb.gateway.node.exchange
-		routing: []
-
 #########################
 # Used Nette extensions #
 #########################
 
 extensions:
 	contributteTranslation		: Contributte\Translation\DI\TranslationExtension
-	ipubDoctrineConsistence		: IPub\DoctrineConsistence\DI\DoctrineConsistenceExtension
-	ipubDoctrineCrud			: IPub\DoctrineCrud\DI\DoctrineCrudExtension
-	ipubDoctrineTimestampable	: IPub\DoctrineTimestampable\DI\DoctrineTimestampableExtension
 	nettrineAnnotations			: Nettrine\Annotations\DI\AnnotationsExtension
 	nettrineCache				: Nettrine\Cache\DI\CacheExtension
 	nettrineDbal				: Nettrine\DBAL\DI\DbalExtension
@@ -37,8 +30,12 @@ extensions:
 	nettrineOrmAnnotations		: Nettrine\ORM\DI\OrmAnnotationsExtension
 	nettrineOrmConsole			: Nettrine\ORM\DI\OrmConsoleExtension
 	nettrineOrmCache			: Nettrine\ORM\DI\OrmCacheExtension
-	nodeWebServer				: FastyBird\NodeWebServer\DI\NodeWebServerExtension
+	ipubDoctrineConsistence		: IPub\DoctrineConsistence\DI\DoctrineConsistenceExtension
+	ipubDoctrineCrud			: IPub\DoctrineCrud\DI\DoctrineCrudExtension
+	ipubDoctrineTimestampable	: IPub\DoctrineTimestampable\DI\DoctrineTimestampableExtension
 	nodeDatabase				: FastyBird\NodeDatabase\DI\NodeDatabaseExtension
+	nodeJsonApi					: FastyBird\NodeJsonApi\DI\NodeJsonApiExtension
+	nodeWebServer				: FastyBird\NodeWebServer\DI\NodeWebServerExtension
 
 ##################################
 # Nette extensions configuration #
@@ -93,11 +90,11 @@ nettrineAnnotations:
 	ignore:
 		- writable
 		- validator
-		- required
 		- module
 		- author
 		- subpackage
 		- package
+		- phpcsSuppress
 
 # Doctrine ORM
 ##############
@@ -107,7 +104,8 @@ nettrineOrm:
 
 nettrineOrmAnnotations:
 	namespaces:
-		- FastyBird\GatewayNode\Entities
+		- FastyBird\DevicesNode\Entities
+		- FastyBird\NodeAuth\Entities
 	paths:
 		- %appDir%/src/Entities
 
