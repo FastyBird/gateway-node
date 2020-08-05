@@ -16,7 +16,7 @@ FastyBird gateway node is an Apache2 licensed distributed microservice, develope
 
 ## Requirements
 
-FastyBird gateway node is tested against PHP 7.3 and [ReactPHP http](https://github.com/reactphp/http) 0.8 event-driven, streaming plaintext HTTP server and [RabbitMQ](https://www.rabbitmq.com/) 3.7 message broker
+FastyBird gateway node is tested against PHP 7.4 and [ReactPHP http](https://github.com/reactphp/http) 0.8 event-driven, streaming plaintext HTTP server and [RabbitMQ](https://www.rabbitmq.com/) 3.7 message broker
 
 ## Getting started
 
