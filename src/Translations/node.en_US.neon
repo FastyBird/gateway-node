@@ -12,3 +12,12 @@
 #
 # @date			14.04.20
 #
+
+base:
+	messages:
+		notAuthorized:
+			heading	: "Not authorized"
+			message	: "This request is not authorized to perform this action"
+		forbidden:
+			heading	: "Not allowed"
+			message	: "You are not allowed to perform this action"

@@ -109,22 +109,22 @@ final class CorsMiddleware implements MiddlewareInterface
 		switch ($cors->getRequestType()) {
 			case CorsAnalysisResultInterface::ERR_ORIGIN_NOT_ALLOWED:
 				throw new NodeJsonApiExceptions\JsonApiErrorException(
-					StatusCodeInterface::STATUS_UNAUTHORIZED,
-					$this->translator->translate('//node.base.messages.notAllowed.heading'),
+					StatusCodeInterface::STATUS_FORBIDDEN,
+					$this->translator->translate('//node.base.messages.forbidden.heading'),
 					'CORS request origin is not allowed.'
 				);
 
 			case CorsAnalysisResultInterface::ERR_METHOD_NOT_SUPPORTED:
 				throw new NodeJsonApiExceptions\JsonApiErrorException(
-					StatusCodeInterface::STATUS_UNAUTHORIZED,
-					$this->translator->translate('//node.base.messages.notAllowed.heading'),
+					StatusCodeInterface::STATUS_FORBIDDEN,
+					$this->translator->translate('//node.base.messages.forbidden.heading'),
 					'CORS requested method is not supported.'
 				);
 
 			case CorsAnalysisResultInterface::ERR_HEADERS_NOT_SUPPORTED:
 				throw new NodeJsonApiExceptions\JsonApiErrorException(
-					StatusCodeInterface::STATUS_UNAUTHORIZED,
-					$this->translator->translate('//node.base.messages.notAllowed.heading'),
+					StatusCodeInterface::STATUS_FORBIDDEN,
+					$this->translator->translate('//node.base.messages.forbidden.heading'),
 					'CORS requested header is not allowed.'
 				);
 
