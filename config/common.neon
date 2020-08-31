@@ -36,6 +36,7 @@ extensions:
 	nodeDatabase				: FastyBird\NodeDatabase\DI\NodeDatabaseExtension
 	nodeJsonApi					: FastyBird\NodeJsonApi\DI\NodeJsonApiExtension
 	nodeWebServer				: FastyBird\NodeWebServer\DI\NodeWebServerExtension
+	nodeMetadata				: FastyBird\NodeMetadata\DI\NodeMetadataExtension
 
 ##################################
 # Nette extensions configuration #
@@ -134,10 +135,10 @@ services:
 				headers.expose:
 					- x-member-instance
 
-				origin: %node.headers.cors.origin%
-				origin.protocol: %node.headers.cors.protocol%
-				origin.server: %node.headers.cors.domain%
-				origin.port: %node.headers.cors.port%
+				origin: %security.cors.origin%
+				origin.protocol: %security.cors.protocol%
+				origin.server: %security.cors.domain%
+				origin.port: %security.cors.port%
 		tags:
 			middleware: {priority: 60}
 
@@ -152,6 +153,8 @@ services:
 
 	# Console commands
 	##################
+
+	- {factory: FastyBird\GatewayNode\Commands\InitializeCommand}
 
 	- {factory: FastyBird\GatewayNode\Commands\Keys\CreateCommand}
 
@@ -174,3 +177,13 @@ services:
 	- {factory: FastyBird\GatewayNode\Models\Routes\RoutesManager(@ipubDoctrineCrud.crud::create(FastyBird\GatewayNode\Entities\Routes\Route))}
 
 	- {factory: FastyBird\GatewayNode\Models\Routes\Destinations\DestinationsManager(@ipubDoctrineCrud.crud::create(FastyBird\GatewayNode\Entities\Routes\Destinations\Destination))}
+
+	- {factory: FastyBird\GatewayNode\Models\Routes\Nodes\NodesManager(@ipubDoctrineCrud.crud::create(FastyBird\GatewayNode\Entities\Routes\Nodes\Node))}
+
+	# Nodes collection configuration
+	-
+		factory: FastyBird\GatewayNode\Nodes\NodesCollection
+		setup:
+			- addNode(FastyBird\GatewayNode\Nodes\Node('com.fastybird.auth-node', %nodes.auth-node.host%, %nodes.auth-node.port%, %nodes.auth-node.secured%, %nodes.auth-node.prefix%))
+			- addNode(FastyBird\GatewayNode\Nodes\Node('com.fastybird.devices-node', %nodes.devices-node.host%, %nodes.devices-node.port%, %nodes.devices-node.secured%, %nodes.devices-node.prefix%))
+			- addNode(FastyBird\GatewayNode\Nodes\Node('com.fastybird.triggers-node', %nodes.triggers-node.host%, %nodes.triggers-node.port%, %nodes.triggers-node.secured%, %nodes.triggers-node.prefix%))

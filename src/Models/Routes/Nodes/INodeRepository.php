@@ -41,4 +41,16 @@ interface INodeRepository
 		Queries\FindRouteNodeQuery $queryObject
 	): ?Entities\Routes\Nodes\INode;
 
+	/**
+	 * @param Queries\FindRouteNodeQuery $queryObject
+	 *
+	 * @return Entities\Routes\Nodes\INode[]
+	 *
+	 * @phpstan-template T of Entities\Routes\Nodes\Node
+	 * @phpstan-param    Queries\FindRouteNodeQuery<T> $queryObject
+	 */
+	public function findAllBy(
+		Queries\FindRouteNodeQuery $queryObject
+	): array;
+
 }

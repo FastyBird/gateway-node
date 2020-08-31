@@ -58,7 +58,7 @@ class Node extends Entities\Entity implements INode
 	 * @var string
 	 *
 	 * @IPubDoctrine\Crud(is={"required", "writable"})
-	 * @ORM\Column(type="string", name="node_name", length=20, nullable=false)
+	 * @ORM\Column(type="string", name="node_name", length=50, nullable=false)
 	 */
 	private $name;
 

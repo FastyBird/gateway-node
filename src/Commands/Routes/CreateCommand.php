@@ -27,7 +27,6 @@ use Symfony\Component\Console\Input;
 use Symfony\Component\Console\Output;
 use Symfony\Component\Console\Style;
 use Throwable;
-use Tracy\Debugger;
 
 /**
  * Routes creation command
@@ -226,7 +225,6 @@ class CreateCommand extends Console\Command\Command
 			}
 
 		} catch (Throwable $ex) {
-			Debugger::log($ex);
 			$io->text(sprintf('<error>%s</error>', $this->translator->translate('validation.route.wasNotCreated', ['error' => $ex->getMessage()])));
 		}
 

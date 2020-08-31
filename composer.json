@@ -38,11 +38,12 @@
     "fastybird/node-bootstrap": "^0.1",
     "fastybird/node-database": "^0.1",
     "fastybird/node-json-api": "^0.1",
+    "fastybird/node-metadata": "^0.1.0",
     "fastybird/node-web-server": "^0.1",
-    "guzzlehttp/guzzle" : "^6.5",
+    "guzzlehttp/guzzle": "^6.5",
     "ipub/doctrine-consistence": "^0.3",
     "ipub/doctrine-timestampable": "^1.4",
-    "neomerx/cors-psr7" : "^2.0"
+    "neomerx/cors-psr7": "^2.0"
   },
 
   "require-dev" : {

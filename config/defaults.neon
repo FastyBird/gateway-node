@@ -18,12 +18,25 @@ parameters:
 
 	security:
 		signature: 'g3xHbkELpMD9LRqW4WmJkHL7kz2bdNYAQJyEuFVzR3k='
+		cors:
+			origin: *
+			protocol: http
+			domain: localhost
+			port: 8000
 
-	node:
-		headers:
-			cors:
-				origin: *
-
-				protocol: http
-				domain: localhost
-				port: 8000
+	nodes:
+		auth-node:
+			host: localhost
+			port: 8001
+			secured: false
+			prefix: auth-node
+		devices-node:
+			host: localhost
+			port: 8002
+			secured: false
+			prefix: devices-node
+		triggers-node:
+			host: localhost
+			port: 8003
+			secured: false
+			prefix: triggers-node

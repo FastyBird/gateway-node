@@ -20,6 +20,7 @@ use Doctrine\Persistence;
 use FastyBird\GatewayNode\Entities;
 use FastyBird\GatewayNode\Queries;
 use Nette;
+use Throwable;
 
 /**
  * Route node repository
@@ -55,6 +56,19 @@ final class NodeRepository implements INodeRepository
 		$property = $queryObject->fetchOne($this->getRepository());
 
 		return $property;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @throws Throwable
+	 */
+	public function findAllBy(
+		Queries\FindRouteNodeQuery $queryObject
+	): array {
+		$result = $queryObject->fetch($this->getRepository());
+
+		return is_array($result) ? $result : $result->toArray();
 	}
 
 	/**
