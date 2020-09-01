@@ -70,7 +70,7 @@ class Destination extends Entities\Entity implements IDestination
 	 * @var string
 	 *
 	 * @IPubDoctrine\Crud(is={"required", "writable"})
-	 * @ORM\Column(type="string", name="destination_path", length=200, nullable=false)
+	 * @ORM\Column(type="string", name="destination_path", length=250, nullable=false)
 	 */
 	private $path;
 

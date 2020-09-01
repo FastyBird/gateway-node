@@ -80,7 +80,7 @@ class Route extends Entities\Entity implements IRoute
 	 * @var string
 	 *
 	 * @IPubDoctrine\Crud(is={"required", "writable"})
-	 * @ORM\Column(type="string", name="route_path", length=200, nullable=false)
+	 * @ORM\Column(type="string", name="route_path", length=250, nullable=false)
 	 */
 	private $path;
 

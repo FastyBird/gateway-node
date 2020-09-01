@@ -58,7 +58,7 @@ class Node extends Entities\Entity implements INode
 	 * @var string
 	 *
 	 * @IPubDoctrine\Crud(is={"required", "writable"})
-	 * @ORM\Column(type="string", name="node_name", length=80, nullable=false)
+	 * @ORM\Column(type="string", name="node_name", length=100, nullable=false)
 	 */
 	private $name;
 
@@ -75,7 +75,7 @@ class Node extends Entities\Entity implements INode
 	 * @var string
 	 *
 	 * @IPubDoctrine\Crud(is={"required", "writable"})
-	 * @ORM\Column(type="string", name="node_host", length=30, nullable=false)
+	 * @ORM\Column(type="string", name="node_host", length=100, nullable=false)
 	 */
 	private $host;
 
@@ -85,7 +85,7 @@ class Node extends Entities\Entity implements INode
 	 * @IPubDoctrine\Crud(is={"required", "writable"})
 	 * @ORM\Column(type="integer", name="node_port", length=5, nullable=FALSE, options={"default": 8000})
 	 */
-	private $port = 8000;
+	private $port;
 
 	/**
 	 * @var Common\Collections\Collection<int, Entities\Routes\Destinations\IDestination>
