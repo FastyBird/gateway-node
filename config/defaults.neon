@@ -40,3 +40,8 @@ parameters:
 			port: 8003
 			secured: false
 			prefix: triggers-node
+		ui-node:
+			host: localhost
+			port: 8003
+			secured: false
+			prefix: ui-node
