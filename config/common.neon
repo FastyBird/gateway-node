@@ -33,10 +33,10 @@ extensions:
 	ipubDoctrineConsistence		: IPub\DoctrineConsistence\DI\DoctrineConsistenceExtension
 	ipubDoctrineCrud			: IPub\DoctrineCrud\DI\DoctrineCrudExtension
 	ipubDoctrineTimestampable	: IPub\DoctrineTimestampable\DI\DoctrineTimestampableExtension
-	nodeDatabase				: FastyBird\NodeDatabase\DI\NodeDatabaseExtension
-	nodeJsonApi					: FastyBird\NodeJsonApi\DI\NodeJsonApiExtension
-	nodeWebServer				: FastyBird\NodeWebServer\DI\NodeWebServerExtension
-	nodeMetadata				: FastyBird\NodeMetadata\DI\NodeMetadataExtension
+	nodeDatabase				: FastyBird\Database\DI\DatabaseExtension
+	nodeJsonApi					: FastyBird\JsonApi\DI\JsonApiExtension
+	nodeWebServer				: FastyBird\WebServer\DI\WebServerExtension
+	nodeMetadata				: FastyBird\ModulesMetadata\DI\ModulesMetadataExtension
 
 ##################################
 # Nette extensions configuration #
@@ -104,17 +104,16 @@ nettrineOrm:
 		proxyDir	: %tempDir%/cache/doctrine.proxies
 
 nettrineOrmAnnotations:
-	namespaces:
-		- FastyBird\GatewayNode\Entities
-	paths:
-		- %appDir%/src/Entities
+	mapping: [
+		FastyBird\GatewayNode\Entities: %appDir%/src/Entities
+	]
 
 #############################
 # Node services definitions #
 #############################
 
 decorator:
-	FastyBird\NodeWebServer\Commands\HttpServerCommand:
+	FastyBird\WebServer\Commands\HttpServerCommand:
 		setup:
 			- '$onServerStart[]' = @FastyBird\GatewayNode\Events\ServerStartHandler
 

@@ -140,4 +140,4 @@ For release info check [release page](https://github.com/FastyBird/gateway-node/
 </table>
 
 ***
-Homepage [http://www.fastybird.com](http://www.fastybird.com) and repository [http://github.com/fastybird/gateway-node](http://github.com/fastybird/gateway-node).
+Homepage [https://www.fastybird.com](https://www.fastybird.com) and repository [http://github.com/fastybird/gateway-node](http://github.com/fastybird/gateway-node).

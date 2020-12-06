@@ -16,8 +16,8 @@
 namespace FastyBird\GatewayNode\Middleware;
 
 use Contributte\Translation;
-use FastyBird\NodeJsonApi\Exceptions  as NodeJsonApiExceptions;
-use FastyBird\NodeWebServer\Http as NodeWebServerHttp;
+use FastyBird\JsonApi\Exceptions  as JsonApiExceptions;
+use FastyBird\WebServer\Http as WebServerHttp;
 use Fig\Http\Message\RequestMethodInterface;
 use Fig\Http\Message\StatusCodeInterface;
 use Neomerx\Cors\Analyzer as CorsAnalyzer;
@@ -63,7 +63,7 @@ final class CorsMiddleware implements MiddlewareInterface
 	/** @var Translation\Translator */
 	private $translator;
 
-	/** @var NodeWebServerHttp\ResponseFactory */
+	/** @var WebServerHttp\ResponseFactory */
 	private $responseFactory;
 
 	/** @var LoggerInterface */
@@ -72,13 +72,13 @@ final class CorsMiddleware implements MiddlewareInterface
 	/**
 	 * @param mixed[] $options
 	 * @param Translation\Translator $translator
-	 * @param NodeWebServerHttp\ResponseFactory $responseFactory
+	 * @param WebServerHttp\ResponseFactory $responseFactory
 	 * @param LoggerInterface $logger
 	 */
 	public function __construct(
 		array $options,
 		Translation\Translator $translator,
-		NodeWebServerHttp\ResponseFactory $responseFactory,
+		WebServerHttp\ResponseFactory $responseFactory,
 		LoggerInterface $logger
 	) {
 		$this->translator = $translator;
@@ -96,7 +96,7 @@ final class CorsMiddleware implements MiddlewareInterface
 	 *
 	 * @return ResponseInterface
 	 *
-	 * @throws NodeJsonApiExceptions\IJsonApiException
+	 * @throws JsonApiExceptions\IJsonApiException
 	 * @throws Translation\Exceptions\InvalidArgument
 	 */
 	public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
@@ -108,21 +108,21 @@ final class CorsMiddleware implements MiddlewareInterface
 
 		switch ($cors->getRequestType()) {
 			case CorsAnalysisResultInterface::ERR_ORIGIN_NOT_ALLOWED:
-				throw new NodeJsonApiExceptions\JsonApiErrorException(
+				throw new JsonApiExceptions\JsonApiErrorException(
 					StatusCodeInterface::STATUS_FORBIDDEN,
 					$this->translator->translate('//node.base.messages.forbidden.heading'),
 					'CORS request origin is not allowed.'
 				);
 
 			case CorsAnalysisResultInterface::ERR_METHOD_NOT_SUPPORTED:
-				throw new NodeJsonApiExceptions\JsonApiErrorException(
+				throw new JsonApiExceptions\JsonApiErrorException(
 					StatusCodeInterface::STATUS_FORBIDDEN,
 					$this->translator->translate('//node.base.messages.forbidden.heading'),
 					'CORS requested method is not supported.'
 				);
 
 			case CorsAnalysisResultInterface::ERR_HEADERS_NOT_SUPPORTED:
-				throw new NodeJsonApiExceptions\JsonApiErrorException(
+				throw new JsonApiExceptions\JsonApiErrorException(
 					StatusCodeInterface::STATUS_FORBIDDEN,
 					$this->translator->translate('//node.base.messages.forbidden.heading'),
 					'CORS requested header is not allowed.'

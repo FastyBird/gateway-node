@@ -19,7 +19,7 @@ use Contributte\Translation;
 use FastyBird\GatewayNode\Entities;
 use FastyBird\GatewayNode\Models;
 use FastyBird\GatewayNode\Queries;
-use FastyBird\NodeJsonApi\Exceptions  as NodeJsonApiExceptions;
+use FastyBird\JsonApi\Exceptions  as JsonApiExceptions;
 use Fig\Http\Message\StatusCodeInterface;
 use GuzzleHttp;
 use IPub\SlimRouter\Routing as SlimRouterRouting;
@@ -106,7 +106,7 @@ class ServerStartHandler
 					return $lastError;
 				}
 
-				throw new NodeJsonApiExceptions\JsonApiErrorException(
+				throw new JsonApiExceptions\JsonApiErrorException(
 					StatusCodeInterface::STATUS_INTERNAL_SERVER_ERROR,
 					$this->translator->translate('//node.base.messages.serverError.heading'),
 					$this->translator->translate('//node.base.messages.serverError.message')

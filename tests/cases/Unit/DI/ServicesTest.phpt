@@ -2,11 +2,11 @@
 
 namespace Tests\Cases;
 
+use FastyBird\Bootstrap\Boot;
 use FastyBird\GatewayNode\Commands;
 use FastyBird\GatewayNode\Events;
 use FastyBird\GatewayNode\Middleware;
 use FastyBird\GatewayNode\Models;
-use FastyBird\NodeBootstrap\Boot;
 use Ninjify\Nunjuck\TestCase\BaseTestCase;
 use Tester\Assert;
 

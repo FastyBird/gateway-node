@@ -17,7 +17,7 @@ namespace FastyBird\GatewayNode\Middleware;
 
 use Contributte\Translation;
 use FastyBird\GatewayNode\Models;
-use FastyBird\NodeJsonApi\Exceptions  as NodeJsonApiExceptions;
+use FastyBird\JsonApi\Exceptions  as JsonApiExceptions;
 use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -57,7 +57,7 @@ final class ApiKeyValidatorMiddleware implements MiddlewareInterface
 	 *
 	 * @return ResponseInterface
 	 *
-	 * @throws NodeJsonApiExceptions\IJsonApiException
+	 * @throws JsonApiExceptions\IJsonApiException
 	 * @throws Translation\Exceptions\InvalidArgument
 	 */
 	public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
@@ -73,7 +73,7 @@ final class ApiKeyValidatorMiddleware implements MiddlewareInterface
 				$apiKey = $this->keyRepository->findOneByKey($headerApiKey);
 
 				if ($apiKey === null) {
-					throw new NodeJsonApiExceptions\JsonApiErrorException(
+					throw new JsonApiExceptions\JsonApiErrorException(
 						StatusCodeInterface::STATUS_UNAUTHORIZED,
 						$this->translator->translate('//node.base.messages.notAuthorized.heading'),
 						$this->translator->translate('//node.base.messages.notAuthorized.message')
@@ -84,7 +84,7 @@ final class ApiKeyValidatorMiddleware implements MiddlewareInterface
 			}
 		}
 
-		throw new NodeJsonApiExceptions\JsonApiErrorException(
+		throw new JsonApiExceptions\JsonApiErrorException(
 			StatusCodeInterface::STATUS_UNAUTHORIZED,
 			$this->translator->translate('//node.base.messages.notAuthorized.heading'),
 			$this->translator->translate('//node.base.messages.notAuthorized.message')

@@ -4,7 +4,7 @@
  * InitializeCommand.php
  *
  * @license        More in license.md
- * @copyright      https://fastybird.com
+ * @copyright      https://www.fastybird.com
  * @author         Adam Kadlec <adam.kadlec@fastybird.com>
  * @package        FastyBird:GatewayNode!
  * @subpackage     Commands
@@ -23,7 +23,7 @@ use FastyBird\GatewayNode\Models;
 use FastyBird\GatewayNode\Nodes;
 use FastyBird\GatewayNode\Queries;
 use FastyBird\GatewayNode\Types;
-use FastyBird\NodeMetadata\Loaders as NodeMetadataLoaders;
+use FastyBird\ModulesMetadata\Loaders as ModulesMetadataLoaders;
 use Monolog;
 use Nette\Utils;
 use Psr\Log\LoggerInterface;
@@ -60,7 +60,7 @@ class InitializeCommand extends Console\Command\Command
 	/** @var Nodes\NodesCollection */
 	private $nodesCollection;
 
-	/** @var NodeMetadataLoaders\IMetadataLoader */
+	/** @var ModulesMetadataLoaders\IMetadataLoader */
 	private $metadataLoader;
 
 	/** @var Common\Persistence\ManagerRegistry */
@@ -75,7 +75,7 @@ class InitializeCommand extends Console\Command\Command
 		Models\Routes\Nodes\INodesManager $nodesManager,
 		Models\Routes\Nodes\INodeRepository $nodeRepository,
 		Nodes\NodesCollection $nodesCollection,
-		NodeMetadataLoaders\IMetadataLoader $metadataLoader,
+		ModulesMetadataLoaders\IMetadataLoader $metadataLoader,
 		Common\Persistence\ManagerRegistry $managerRegistry,
 		LoggerInterface $logger,
 		?string $name = null
