@@ -33,10 +33,10 @@ extensions:
 	ipubDoctrineConsistence		: IPub\DoctrineConsistence\DI\DoctrineConsistenceExtension
 	ipubDoctrineCrud			: IPub\DoctrineCrud\DI\DoctrineCrudExtension
 	ipubDoctrineTimestampable	: IPub\DoctrineTimestampable\DI\DoctrineTimestampableExtension
-	nodeDatabase				: FastyBird\Database\DI\DatabaseExtension
-	nodeJsonApi					: FastyBird\JsonApi\DI\JsonApiExtension
-	nodeWebServer				: FastyBird\WebServer\DI\WebServerExtension
-	nodeMetadata				: FastyBird\ModulesMetadata\DI\ModulesMetadataExtension
+	fbDatabase					: FastyBird\Database\DI\DatabaseExtension
+	fbJsonApi					: FastyBird\JsonApi\DI\JsonApiExtension
+	fbWebServer					: FastyBird\WebServer\DI\WebServerExtension
+	fbModulesMetadata			: FastyBird\ModulesMetadata\DI\ModulesMetadataExtension
 
 ##################################
 # Nette extensions configuration #
@@ -44,7 +44,7 @@ extensions:
 
 # Node web server
 #################
-nodeWebServer:
+fbWebServer:
 	server:
 		address: %server.address%
 		port: %server.port%
@@ -186,3 +186,4 @@ services:
 			- addNode(FastyBird\GatewayNode\Nodes\Node('com.fastybird.auth-node', %nodes.auth-node.host%, %nodes.auth-node.port%, %nodes.auth-node.secured%, %nodes.auth-node.prefix%))
 			- addNode(FastyBird\GatewayNode\Nodes\Node('com.fastybird.devices-node', %nodes.devices-node.host%, %nodes.devices-node.port%, %nodes.devices-node.secured%, %nodes.devices-node.prefix%))
 			- addNode(FastyBird\GatewayNode\Nodes\Node('com.fastybird.triggers-node', %nodes.triggers-node.host%, %nodes.triggers-node.port%, %nodes.triggers-node.secured%, %nodes.triggers-node.prefix%))
+			- addNode(FastyBird\GatewayNode\Nodes\Node('com.fastybird.ui-node', %nodes.ui-node.host%, %nodes.ui-node.port%, %nodes.ui-node.secured%, %nodes.ui-node.prefix%))
