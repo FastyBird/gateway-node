@@ -42,6 +42,6 @@ parameters:
 			prefix: triggers-node
 		ui-node:
 			host: localhost
-			port: 8003
+			port: 8004
 			secured: false
 			prefix: ui-node
