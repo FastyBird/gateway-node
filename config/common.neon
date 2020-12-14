@@ -10,13 +10,6 @@
 #
 # @date			13.04.20
 
-##############################
-# Node predefined parameters #
-##############################
-
-parameters:
-	origin: com.fastybird.gateway-node
-
 #########################
 # Used Nette extensions #
 #########################
