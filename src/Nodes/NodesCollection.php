@@ -33,7 +33,7 @@ class NodesCollection
 	use SmartObject;
 
 	/** @var SplObjectStorage */
-	private $nodes;
+	private SplObjectStorage $nodes;
 
 	public function __construct()
 	{

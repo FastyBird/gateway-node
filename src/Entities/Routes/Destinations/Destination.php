@@ -55,7 +55,7 @@ class Destination extends Entities\Entity implements IDestination
 	 * @ORM\Column(type="uuid_binary", name="destination_id")
 	 * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
 	 */
-	protected $id;
+	protected Uuid\UuidInterface $id;
 
 	/**
 	 * @var Types\RequestMethodType
@@ -72,7 +72,7 @@ class Destination extends Entities\Entity implements IDestination
 	 * @IPubDoctrine\Crud(is={"required", "writable"})
 	 * @ORM\Column(type="string", name="destination_path", length=250, nullable=false)
 	 */
-	private $path;
+	private string $path;
 
 	/**
 	 * @var string[]
@@ -80,7 +80,7 @@ class Destination extends Entities\Entity implements IDestination
 	 * @IPubDoctrine\Crud(is="writable")
 	 * @ORM\Column(type="json", name="destination_headers", nullable=true)
 	 */
-	private $headers = [];
+	private array $headers = [];
 
 	/**
 	 * @var Entities\Routes\Nodes\INode
@@ -89,7 +89,7 @@ class Destination extends Entities\Entity implements IDestination
 	 * @ORM\ManyToOne(targetEntity="FastyBird\GatewayNode\Entities\Routes\Nodes\Node", inversedBy="destinations", cascade={"persist"})
 	 * @ORM\JoinColumn(name="node_id", referencedColumnName="node_id", onDelete="CASCADE")
 	 */
-	private $node;
+	private Entities\Routes\Nodes\INode $node;
 
 	/**
 	 * @var Entities\Routes\IRoute
@@ -98,7 +98,7 @@ class Destination extends Entities\Entity implements IDestination
 	 * @ORM\ManyToOne(targetEntity="FastyBird\GatewayNode\Entities\Routes\Route", inversedBy="destinations", cascade={"persist"})
 	 * @ORM\JoinColumn(name="route_id", referencedColumnName="route_id", onDelete="CASCADE")
 	 */
-	private $route;
+	private Entities\Routes\IRoute $route;
 
 	/**
 	 * @param Types\RequestMethodType $method

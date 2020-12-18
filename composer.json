@@ -1,7 +1,7 @@
 {
   "name" : "fastybird/gateway-node",
   "type" : "project",
-  "description" : "FastyBird IOT server API gateway node for accessing to nodes",
+  "description" : "FastyBird IoT API gateway node for accessing to nodes",
   "keywords" : [
     "fastybird",
     "fb",
@@ -18,7 +18,7 @@
   "authors" : [
     {
       "name" : "FastyBird s.r.o.",
-      "email" : "info@fastybird.com",
+      "email" : "code@fastybird.com",
       "homepage" : "https://www.fastybird.com/"
     },
     {
@@ -56,7 +56,7 @@
     "phpstan/phpstan-deprecation-rules": "^0.12",
     "phpstan/phpstan-doctrine": "^0.12",
     "phpstan/phpstan-nette": "^0.12",
-    "tracy/tracy": "~2.4"
+    "tracy/tracy": "2.7"
   },
 
   "autoload" : {

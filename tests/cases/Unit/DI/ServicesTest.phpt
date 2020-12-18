@@ -33,7 +33,7 @@ final class ServicesTest extends BaseTestCase
 		Assert::notNull($container->getByType(Middleware\CorsMiddleware::class));
 		Assert::notNull($container->getByType(Middleware\LoggerMiddleware::class));
 
-		Assert::notNull($container->getByType(Events\ServerStartHandler::class));
+		Assert::notNull($container->getByType(Events\ServerAfterStartHandler::class));
 
 		Assert::notNull($container->getByType(Commands\Keys\CreateCommand::class));
 		Assert::notNull($container->getByType(Commands\Routes\CreateCommand::class));

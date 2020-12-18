@@ -26,7 +26,7 @@ use FastyBird\GatewayNode\Types;
 use FastyBird\ModulesMetadata\Loaders as ModulesMetadataLoaders;
 use Monolog;
 use Nette\Utils;
-use Psr\Log\LoggerInterface;
+use Psr\Log;
 use RuntimeException;
 use Symfony\Component\Console;
 use Symfony\Component\Console\Input;
@@ -46,28 +46,28 @@ class InitializeCommand extends Console\Command\Command
 {
 
 	/** @var Models\Routes\IRoutesManager */
-	private $routesManager;
+	private Models\Routes\IRoutesManager $routesManager;
 
 	/** @var Models\Routes\IRouteRepository */
-	private $routeRepository;
+	private Models\Routes\IRouteRepository $routeRepository;
 
 	/** @var Models\Routes\Nodes\INodesManager */
-	private $nodesManager;
+	private Models\Routes\Nodes\INodesManager $nodesManager;
 
 	/** @var Models\Routes\Nodes\INodeRepository */
-	private $nodeRepository;
+	private Models\Routes\Nodes\INodeRepository $nodeRepository;
 
 	/** @var Nodes\NodesCollection */
-	private $nodesCollection;
+	private Nodes\NodesCollection $nodesCollection;
 
 	/** @var ModulesMetadataLoaders\IMetadataLoader */
-	private $metadataLoader;
+	private ModulesMetadataLoaders\IMetadataLoader $metadataLoader;
 
 	/** @var Common\Persistence\ManagerRegistry */
-	private $managerRegistry;
+	private Common\Persistence\ManagerRegistry $managerRegistry;
 
-	/** @var LoggerInterface */
-	private $logger;
+	/** @var Log\LoggerInterface */
+	private Log\LoggerInterface $logger;
 
 	public function __construct(
 		Models\Routes\IRoutesManager $routesManager,
@@ -77,7 +77,7 @@ class InitializeCommand extends Console\Command\Command
 		Nodes\NodesCollection $nodesCollection,
 		ModulesMetadataLoaders\IMetadataLoader $metadataLoader,
 		Common\Persistence\ManagerRegistry $managerRegistry,
-		LoggerInterface $logger,
+		Log\LoggerInterface $logger,
 		?string $name = null
 	) {
 		$this->routesManager = $routesManager;

@@ -57,7 +57,7 @@ class Route extends Entities\Entity implements IRoute
 	 * @ORM\Column(type="uuid_binary", name="route_id")
 	 * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
 	 */
-	protected $id;
+	protected Uuid\UuidInterface $id;
 
 	/**
 	 * @var string
@@ -65,7 +65,7 @@ class Route extends Entities\Entity implements IRoute
 	 * @IPubDoctrine\Crud(is={"required", "writable"})
 	 * @ORM\Column(type="string", name="route_name", length=50, nullable=false)
 	 */
-	private $name;
+	private string $name;
 
 	/**
 	 * @var Types\RequestMethodType
@@ -82,7 +82,7 @@ class Route extends Entities\Entity implements IRoute
 	 * @IPubDoctrine\Crud(is={"required", "writable"})
 	 * @ORM\Column(type="string", name="route_path", length=250, nullable=false)
 	 */
-	private $path;
+	private string $path;
 
 	/**
 	 * @var string[]
@@ -90,7 +90,7 @@ class Route extends Entities\Entity implements IRoute
 	 * @IPubDoctrine\Crud(is="writable")
 	 * @ORM\Column(type="json", name="route_headers", nullable=true)
 	 */
-	private $headers = [];
+	private array $headers = [];
 
 	/**
 	 * @var Common\Collections\Collection<int, Entities\Routes\Destinations\IDestination>
@@ -98,7 +98,7 @@ class Route extends Entities\Entity implements IRoute
 	 * @IPubDoctrine\Crud(is={"required", "writable"})
 	 * @ORM\OneToMany(targetEntity="FastyBird\GatewayNode\Entities\Routes\Destinations\Destination", mappedBy="route", cascade={"persist", "remove"}, orphanRemoval=true)
 	 */
-	private $destinations;
+	private Common\Collections\Collection $destinations;
 
 	/**
 	 * @param string $name

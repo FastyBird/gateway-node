@@ -48,7 +48,7 @@ class Key extends Entities\Entity implements IKey
 	 * @ORM\Column(type="uuid_binary", name="key_id")
 	 * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
 	 */
-	protected $id;
+	protected Uuid\UuidInterface $id;
 
 	/**
 	 * @var string
@@ -56,7 +56,7 @@ class Key extends Entities\Entity implements IKey
 	 * @IPubDoctrine\Crud(is={"required", "writable"})
 	 * @ORM\Column(type="string", name="key_name", length=50, nullable=FALSE)
 	 */
-	private $name;
+	private string $name;
 
 	/**
 	 * @var string
@@ -64,7 +64,7 @@ class Key extends Entities\Entity implements IKey
 	 * @IPubDoctrine\Crud(is={"required", "writable"})
 	 * @ORM\Column(type="string", name="key_key", length=150, nullable=FALSE)
 	 */
-	private $key;
+	private string $key;
 
 	/**
 	 * @var Types\KeyStateType

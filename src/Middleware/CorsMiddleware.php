@@ -28,7 +28,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Psr\Log\LoggerInterface;
+use Psr\Log;
 
 /**
  * API key check middleware
@@ -61,25 +61,25 @@ final class CorsMiddleware implements MiddlewareInterface
 	];
 
 	/** @var Translation\Translator */
-	private $translator;
+	private Translation\Translator $translator;
 
 	/** @var WebServerHttp\ResponseFactory */
-	private $responseFactory;
+	private WebServerHttp\ResponseFactory $responseFactory;
 
-	/** @var LoggerInterface */
-	private $logger;
+	/** @var Log\LoggerInterface */
+	private Log\LoggerInterface $logger;
 
 	/**
 	 * @param mixed[] $options
 	 * @param Translation\Translator $translator
 	 * @param WebServerHttp\ResponseFactory $responseFactory
-	 * @param LoggerInterface $logger
+	 * @param Log\LoggerInterface $logger
 	 */
 	public function __construct(
 		array $options,
 		Translation\Translator $translator,
 		WebServerHttp\ResponseFactory $responseFactory,
-		LoggerInterface $logger
+		Log\LoggerInterface $logger
 	) {
 		$this->translator = $translator;
 		$this->responseFactory = $responseFactory;

@@ -36,10 +36,10 @@ final class RouteRepository implements IRouteRepository
 	use Nette\SmartObject;
 
 	/** @var Common\Persistence\ManagerRegistry */
-	private $managerRegistry;
+	private Common\Persistence\ManagerRegistry $managerRegistry;
 
 	/** @var Persistence\ObjectRepository<Entities\Routes\Route>|null */
-	private $repository = null;
+	private ?Persistence\ObjectRepository $repository = null;
 
 	public function __construct(Common\Persistence\ManagerRegistry $managerRegistry)
 	{

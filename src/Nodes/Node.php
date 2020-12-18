@@ -31,19 +31,19 @@ class Node
 	use SmartObject;
 
 	/** @var string */
-	private $name;
+	private string $name;
 
 	/** @var string */
-	private $host;
+	private string $host;
 
 	/** @var int */
-	private $port;
+	private int $port;
 
 	/** @var bool */
-	private $secured;
+	private bool $secured;
 
 	/** @var string */
-	private $prefix;
+	private string $prefix;
 
 	public function __construct(
 		string $name,

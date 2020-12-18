@@ -108,7 +108,7 @@ nettrineOrmAnnotations:
 decorator:
 	FastyBird\WebServer\Commands\HttpServerCommand:
 		setup:
-			- '$onServerStart[]' = @FastyBird\GatewayNode\Events\ServerStartHandler
+			- 'onAfterServerStart[]' = @FastyBird\GatewayNode\Events\ServerAfterStartHandler
 
 services:
 	# Http middlewares
@@ -141,7 +141,7 @@ services:
 	# Node events
 	#############
 
-	- {factory: FastyBird\GatewayNode\Events\ServerStartHandler}
+	- {factory: FastyBird\GatewayNode\Events\ServerAfterStartHandler}
 
 	# Console commands
 	##################

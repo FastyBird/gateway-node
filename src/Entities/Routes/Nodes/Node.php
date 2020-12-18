@@ -52,7 +52,7 @@ class Node extends Entities\Entity implements INode
 	 * @ORM\Column(type="uuid_binary", name="node_id")
 	 * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
 	 */
-	protected $id;
+	protected Uuid\UuidInterface $id;
 
 	/**
 	 * @var string
@@ -60,7 +60,7 @@ class Node extends Entities\Entity implements INode
 	 * @IPubDoctrine\Crud(is={"required", "writable"})
 	 * @ORM\Column(type="string", name="node_name", length=100, nullable=false)
 	 */
-	private $name;
+	private string $name;
 
 	/**
 	 * @var Types\RequestSchemeType
@@ -77,7 +77,7 @@ class Node extends Entities\Entity implements INode
 	 * @IPubDoctrine\Crud(is={"required", "writable"})
 	 * @ORM\Column(type="string", name="node_host", length=100, nullable=false)
 	 */
-	private $host;
+	private string $host;
 
 	/**
 	 * @var int
@@ -85,7 +85,7 @@ class Node extends Entities\Entity implements INode
 	 * @IPubDoctrine\Crud(is={"required", "writable"})
 	 * @ORM\Column(type="integer", name="node_port", length=5, nullable=FALSE, options={"default": 8000})
 	 */
-	private $port;
+	private int $port;
 
 	/**
 	 * @var Common\Collections\Collection<int, Entities\Routes\Destinations\IDestination>
@@ -93,7 +93,7 @@ class Node extends Entities\Entity implements INode
 	 * @IPubDoctrine\Crud(is="writable")
 	 * @ORM\OneToMany(targetEntity="FastyBird\GatewayNode\Entities\Routes\Destinations\Destination", mappedBy="node", cascade={"persist", "remove"}, orphanRemoval=true)
 	 */
-	private $destinations;
+	private Common\Collections\Collection $destinations;
 
 	/**
 	 * @param Types\RequestSchemeType $scheme

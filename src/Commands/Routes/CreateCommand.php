@@ -42,22 +42,22 @@ class CreateCommand extends Console\Command\Command
 	use Nette\SmartObject;
 
 	/** @var Models\Routes\IRouteRepository */
-	private $routeRepository;
+	private Models\Routes\IRouteRepository $routeRepository;
 
 	/** @var Models\Routes\IRoutesManager */
-	private $routesManager;
+	private Models\Routes\IRoutesManager $routesManager;
 
 	/** @var Models\Routes\Nodes\INodeRepository */
-	private $nodeRepository;
+	private Models\Routes\Nodes\INodeRepository $nodeRepository;
 
 	/** @var Models\Routes\Destinations\IDestinationsManager */
-	private $destinationsManager;
+	private Models\Routes\Destinations\IDestinationsManager $destinationsManager;
 
 	/** @var Translation\PrefixedTranslator */
-	private $translator;
+	private Translation\PrefixedTranslator $translator;
 
 	/** @var string */
-	private $translationDomain = 'commands.routeCreate';
+	private string $translationDomain = 'commands.routeCreate';
 
 	/**
 	 * @param Models\Routes\IRouteRepository $routeRepository

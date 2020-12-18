@@ -1,7 +1,7 @@
 <?php declare(strict_types = 1);
 
 /**
- * ServerStartHandler.php
+ * ServerAfterStartHandler.php
  *
  * @license        More in license.md
  * @copyright      https://www.fastybird.com
@@ -36,19 +36,19 @@ use Psr\Http\Message\ServerRequestInterface;
  *
  * @author          Adam Kadlec <adam.kadlec@fastybird.com>
  */
-class ServerStartHandler
+class ServerAfterStartHandler
 {
 
 	use Nette\SmartObject;
 
 	/** @var Models\Routes\IRouteRepository */
-	private $routeRepository;
+	private Models\Routes\IRouteRepository $routeRepository;
 
 	/** @var SlimRouterRouting\IRouter */
-	private $router;
+	private SlimRouterRouting\IRouter $router;
 
 	/** @var Translation\Translator */
-	private $translator;
+	private Translation\Translator $translator;
 
 	public function __construct(
 		Models\Routes\IRouteRepository $routeRepository,

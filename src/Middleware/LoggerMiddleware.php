@@ -19,7 +19,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Psr\Log\LoggerInterface;
+use Psr\Log;
 
 /**
  * Requests log middleware
@@ -32,10 +32,10 @@ use Psr\Log\LoggerInterface;
 class LoggerMiddleware implements MiddlewareInterface
 {
 
-	/** @var LoggerInterface */
-	private $logger;
+	/** @var Log\LoggerInterface */
+	private Log\LoggerInterface $logger;
 
-	public function __construct(LoggerInterface $logger)
+	public function __construct(Log\LoggerInterface $logger)
 	{
 		$this->logger = $logger;
 	}

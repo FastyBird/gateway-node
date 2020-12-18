@@ -41,13 +41,13 @@ class CreateCommand extends Console\Command\Command
 	use Nette\SmartObject;
 
 	/** @var Models\Keys\IKeysManager */
-	private $keysManager;
+	private Models\Keys\IKeysManager $keysManager;
 
 	/** @var Translation\PrefixedTranslator */
-	private $translator;
+	private Translation\PrefixedTranslator $translator;
 
 	/** @var string */
-	private $translationDomain = 'commands.keyCreate';
+	private string $translationDomain = 'commands.keyCreate';
 
 	/**
 	 * @param Models\Keys\IKeysManager $keysManager

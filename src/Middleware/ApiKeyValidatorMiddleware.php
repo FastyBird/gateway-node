@@ -38,10 +38,10 @@ final class ApiKeyValidatorMiddleware implements MiddlewareInterface
 	private const API_KEY_HEADER = 'X-Api-Key';
 
 	/** @var Models\Keys\IKeyRepository */
-	private $keyRepository;
+	private Models\Keys\IKeyRepository $keyRepository;
 
 	/** @var Translation\Translator */
-	private $translator;
+	private Translation\Translator $translator;
 
 	public function __construct(
 		Models\Keys\IKeyRepository $keyRepository,

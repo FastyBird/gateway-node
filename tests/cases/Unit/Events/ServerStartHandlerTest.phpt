@@ -30,7 +30,7 @@ final class ServerStartHandlerTest extends BaseMockeryTestCase
 
 		$translator = Mockery::mock(Translation\Translator::class);
 
-		$subscriber = new Events\ServerStartHandler(
+		$subscriber = new Events\ServerAfterStartHandler(
 			$routeRepository,
 			$router,
 			$translator
